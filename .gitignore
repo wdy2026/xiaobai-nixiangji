@@ -1,0 +1,40 @@
+# —— 操作系统 ——
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# —— Node / Python / IDE ——
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+.env
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# —— 日志与临时 ——
+*.log
+*.tmp
+*.bak
+
+# —— Skill 私有缓存 ——
+# 跑概念检索时留在 .workbuddy 下面的私人笔记、爬虫结果等
+.workbuddy/concept-sources/
+.workbuddy/cache/
+.workbuddy/.cache/
+
+# —— AI 生成过程稿(只在本地迭代,不入仓) ——
+.drafts/
+scratch/
+
+# —— 隐私文件 ——
+# 学习通账号、学校密码、人名表等不要入仓
+.env.local
+secrets.local
+*.pem
+*.key

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>概念关系 · Agent / Context / Skill · xiaobai-nixiangji</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d;
+    --text:#e2e8f0; --muted:#94a3b8;
+    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185;
+    --c-emerald:#34d399;
+    --border:rgba(148,163,184,.18);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
+  .wrap{max-width:1000px;margin:0 auto;padding:48px 24px 96px}
+  header{margin-bottom:28px}
+  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px}
+  h1{font-size:38px;margin:8px 0 12px;font-weight:700}
+  .subtitle{color:var(--muted);font-size:16px}
+  section.card{
+    background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:24px 26px;margin:18px 0;position:relative;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset,0 12px 30px rgba(0,0,0,.25);
+  }
+  section.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0}
+  section.card.h-cyan::before{background:var(--c-cyan)}
+  section.card.h-purple::before{background:var(--c-purple)}
+  section.card.h-amber::before{background:var(--c-amber)}
+  section.card.h-emerald::before{background:var(--c-emerald)}
+  section.card h2{margin:0 0 14px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card h2 .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:auto;border:1px solid var(--border);padding:2px 8px;border-radius:6px}
+  ul,ol{margin:8px 0 8px 20px;padding:0}
+  li{margin:6px 0}
+  code{background:rgba(255,255,255,.05);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.92em;color:#fde68a}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  blockquote{
+    margin:14px 0;padding:10px 16px;border-left:3px solid var(--c-cyan);
+    background:rgba(34,211,238,.06);border-radius:0 10px 10px 0;color:#cbd5e1;
+  }
+  blockquote.amber{border-left-color:var(--c-amber);background:rgba(251,191,36,.12)}
+  blockquote.purple{border-left-color:var(--c-purple);background:rgba(167,139,250,.12)}
+  a{color:#7dd3fc;text-decoration:none;border-bottom:1px dotted rgba(125,211,252,.4)}
+  /* Mermaid 容器:不引外网 CDN,用 SVG 替代 */
+  .diagram{
+    background:#0b1224;border:1px solid var(--border);border-radius:14px;
+    padding:20px;margin:16px 0;overflow:auto;
+  }
+  .diagram svg{width:100%;max-width:920px;height:auto;display:block;margin:0 auto}
+  footer{margin-top:40px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="crumb">xiaobai-nixiangji · learning-materials · concept-relationship.html</div>
+  <h1>概念关系 · Agent / 上下文 / Skill</h1>
+  <p class="subtitle">三件事怎么咬合 — 上下文如何驱动 Agent,Skill 如何沉淀经验</p>
+</header>
+
+<section class="card h-cyan">
+  <h2>1. 一句话结论 <span class="tag">TAKEAWAY</span></h2>
+  <blockquote>
+    <b>上下文</b>是 Agent 当下"看得到的世界";<b>Agent</b>是带着这个世界去<b>自主行动</b>的实体;<b>Skill</b>是把"哪类任务怎么思考"沉淀成可复用的知识包,按需塞进上下文。
+    三者构成一个闭环:<b>Skill 选择 → 加载进上下文 → 驱动 Agent 行为 → 结果再写回上下文 / 记忆库</b>。
+  </blockquote>
+</section>
+
+<section class="card h-purple">
+  <h2>2. 关系总览图(Mermaid 风格 · 用纯 SVG 渲染) <span class="tag">DIAGRAM</span></h2>
+
+  <div class="diagram">
+<svg viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#22d3ee"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <!-- 三个主体节点 -->
+  <g>
+    <rect x="40"  y="60"  width="180" height="80" rx="14" fill="#0b1224" stroke="#22d3ee" stroke-width="2"/>
+    <text x="130" y="100" fill="#22d3ee" font-size="20" font-weight="700" text-anchor="middle">上下文 Context</text>
+    <text x="130" y="125" fill="#94a3b8" font-size="12" text-anchor="middle">Prompt + History + RAG</text>
+  </g>
+
+  <g>
+    <rect x="360" y="220" width="180" height="80" rx="14" fill="#0b1224" stroke="#a78bfa" stroke-width="2"/>
+    <text x="450" y="260" fill="#a78bfa" font-size="20" font-weight="700" text-anchor="middle">Agent</text>
+    <text x="450" y="285" fill="#94a3b8" font-size="12" text-anchor="middle">自主循环 · 工具调用</text>
+  </g>
+
+  <g>
+    <rect x="680" y="60"  width="180" height="80" rx="14" fill="#0b1224" stroke="#fbbf24" stroke-width="2"/>
+    <text x="770" y="100" fill="#fbbf24" font-size="20" font-weight="700" text-anchor="middle">Skill</text>
+    <text x="770" y="125" fill="#94a3b8" font-size="12" text-anchor="middle">可复用任务知识包</text>
+  </g>
+
+  <!-- 上下文 -> Agent (决定行为) -->
+  <line x1="220" y1="120" x2="360" y2="240" stroke="#22d3ee" stroke-width="2" marker-end="url(#arr-cyan)"/>
+  <text x="245" y="170" fill="#22d3ee" font-size="13" font-weight="600">驱动</text>
+
+  <!-- Skill -> 上下文 (按需加载) -->
+  <line x1="680" y1="100" x2="220" y2="100" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="450" y="92" fill="#fbbf24" font-size="13" font-weight="600" text-anchor="middle">按需加载进上下文</text>
+
+  <!-- Agent -> Skill (调用 / 注册) -->
+  <path d="M540 240 Q620 170 690 110" fill="none" stroke="#a78bfa" stroke-width="2" marker-end="url(#arr-purple)"/>
+  <text x="610" y="180" fill="#a78bfa" font-size="13" font-weight="600">调用</text>
+
+  <!-- 工具 -->
+  <g>
+    <rect x="360" y="400" width="180" height="60" rx="12" fill="#0b1224" stroke="#34d399" stroke-width="2"/>
+    <text x="450" y="425" fill="#34d399" font-size="15" font-weight="600" text-anchor="middle">外部工具 / API</text>
+    <text x="450" y="446" fill="#94a3b8" font-size="11" text-anchor="middle">搜索 / 数据库 / 浏览器</text>
+  </g>
+  <line x1="450" y1="300" x2="450" y2="400" stroke="#34d399" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="460" y="358" fill="#34d399" font-size="12">调</text>
+
+  <!-- 注释:循环 -->
+  <g>
+    <path d="M150 420 Q150 480 760 480 Q780 480 780 460" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+    <text x="450" y="500" fill="#94a3b8" font-size="12" text-anchor="middle">观察结果 → 写回上下文 → 循环 Reason→Act→Observe</text>
+  </g>
+</svg>
+  </div>
+
+  <p style="color:var(--muted);font-size:13px;margin-top:6px">
+    图示说明:三条主边 = <span style="color:#22d3ee">上下文驱动 Agent</span> / <span style="color:#fbbf24">Skill 按需加载入上下文</span> / <span style="color:#a78bfa">Agent 选择并调用 Skill</span>;虚线 = 数据回灌形成循环。
+  </p>
+</section>
+
+<section class="card h-amber">
+  <h2>3. 三件事各自的"角色分工" <span class="tag">ROLE</span></h2>
+  <table>
+    <thead>
+      <tr><th>维度</th><th>上下文</th><th>Agent</th><th>Skill</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>本质</b></td>
+        <td>一次推理的"输入数据"</td>
+        <td>一个能循环决策并行动的执行体</td>
+        <td>一个被命名的、可被加载的知识模块</td>
+      </tr>
+      <tr>
+        <td><b>谁决定</b></td>
+        <td>人 + 系统共同塑造</td>
+        <td>Agent 自己循环决定</td>
+        <td>人设计、Agent 调用</td>
+      </tr>
+      <tr>
+        <td><b>生命周期</b></td>
+        <td>随请求结束就丢</td>
+        <td>跨多轮存在</td>
+        <td>跨请求、跨人长期沉淀</td>
+      </tr>
+      <tr>
+        <td><b>改善它的代价</b></td>
+        <td>改 prompt / 加 RAG</td>
+        <td>改模型 / 改工具</td>
+        <td>改 SKILL.md</td>
+      </tr>
+      <tr>
+        <td><b>出问题表现</b></td>
+        <td>Lost-in-Middle / 上下文污染</td>
+        <td>循环死锁 / 工具错用</td>
+        <td>描述不准导致误调 / 过时</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="card h-emerald">
+  <h2>4. 互相作用:上下文怎么影响 Agent 的工作? <span class="tag">HOW</span></h2>
+  <ol>
+    <li><b>窗口决定了 Agent 的"工作记忆上限"</b>:超出窗口的历史会被截断或压缩,Agent 立刻"失忆"。</li>
+    <li><b>位置偏差影响 Agent 的判断优先级</b>:同样一段指令,放在 System 提示末尾与放在历史消息中间,被遵守的概率天差地别。<sup><a href="llm-context.html">→ llm-context.html 自测题 2</a></sup></li>
+    <li><b>上下文里的"工具描述"决定了 Agent 会用什么手</b>:不写在上下文里的工具,Agent 无法调用。</li>
+    <li><b>上下文里的"Skill 描述"决定了 Agent 会去选哪个 Skill</b>:</li>
+    <li><b>上下文里的检索片段决定了 Agent 是否够事实</b>:没检索就给一句话,Agent 大概率编。</li>
+  </ol>
+
+  <blockquote class="amber">
+    <b>个人判断</b>:在工程上,Agent 的失败 80% 来自上下文,而不是 Agent 本身的"智力"。
+    先把上下文做好,再谈模型升级。
+  </blockquote>
+</section>
+
+<section class="card h-purple">
+  <h2>5. 互相作用:Skill 如何沉淀可复用的任务知识? <span class="tag">WHY</span></h2>
+  <ol>
+    <li><b>沉淀的是"路径",不是"答案"</b>:Skill 教模型怎么思考、查什么、出什么格式,而不是把答案预写死。</li>
+    <li><b>渐进式披露让它可扩展</b>:每个 Skill 自带 description,模型只读几十 token 就能决定要不要加载主体,避免上下文被冗余填满。</li>
+    <li><b>Skill 之间可以组合</b>:arxiv-summarizer + write-as-table 可以叠成"先把论文总结再渲染成图表"。</li>
+    <li><b>Skill 是把"组织资产"翻译成"模型资产"</b>:</li>
+    <li><b>Skill 的存在让"上下文→Agent"更可控</b>:与其每次在 prompt 里塞一大坨规则,不如把规则封装成 Skill,需要时再调。</li>
+  </ol>
+</section>
+
+<section class="card h-cyan">
+  <h2>6. 一个真实工作的闭环例子 <span class="tag">EXAMPLE</span></h2>
+  <blockquote>
+    <b>用户:</b>"用论文 <i>Lost in the Middle</i> 的方法,帮我看看我们公司那份 PDF 客服报告的问题。"<br><br>
+    <b>闭环</b>:
+    <ol>
+      <li>Agent 看到用户消息,从上下文中的 Skill 清单里匹配到 <code>pdf-analyzer</code> + <code>arxiv-reviewer</code>。</li>
+      <li>把这两个 Skill 的 <code>SKILL.md</code> 加载进上下文,占约 1.5K token。</li>
+      <li>RAG 从公司 PDF 检索到 6 段相关文字,塞进上下文。</li>
+      <li>Agent 进入 Reason→Act→Observe 循环,逐步输出"上下文位置偏差如何影响回答质量"的报告。</li>
+      <li>结果写回当前上下文(对话历史),并可选择性写进<b>记忆库</b>,下次问类似问题时优先召回。</li>
+    </ol>
+  </blockquote>
+</section>
+
+<section class="card h-amber">
+  <h2>7. 易混点 / 反直觉点 <span class="tag">MISCONCEPTIONS</span></h2>
+  <ul>
+    <li><b>"上下文越大 Agent 越聪明"</b>:错。位置偏差是结构问题,塞太多无关内容会稀释关键指令。</li>
+    <li><b>"Skill = Prompt"</b>:错。Skill 是<b>可按需加载的知识包</b>,Prompt 是常驻上下文。</li>
+    <li><b>"Agent 自动会用所有 Skill"</b>:错。它靠的是<b>description 匹配</b>,写不好就不被选中。</li>
+    <li><b>"Skill 越多越强"</b>:不一定。每个 Skill 都参与 description 抢占,反而互相干扰。</li>
+    <li><b>"上下文 = 记忆"</b>:错。记忆是<b>外部存储 + 按需检索</b>;上下文是<b>本次请求的输入序列</b>。</li>
+  </ul>
+</section>
+
+<section class="card h-emerald">
+  <h2>8. 一句话总结 <span class="tag">RECAP</span></h2>
+  <blockquote>
+    Skill 决定 Agent <b>会什么</b>,上下文决定 Agent <b>正在看到什么</b>,Agent 决定 <b>怎么用这两者去把事办成</b>。
+    好的工程实践 = 写好 Skill 的 description + 管好上下文的信噪比 + 给 Agent 适当的工具与边界。
+  </blockquote>
+</section>
+
+<footer>
+  本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
+  配套阅读:<a href="agent.html">agent.html</a> · <a href="llm-context.html">llm-context.html</a> · <a href="skill.html">skill.html</a>
+</footer>
+
+</div>
+</body>
+</html>

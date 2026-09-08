@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>概念卡片 · Skill · xiaobai-nixiangji</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d;
+    --text:#e2e8f0; --muted:#94a3b8;
+    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185;
+    --c-cyan-soft:rgba(34,211,238,.12);
+    --c-purple-soft:rgba(167,139,250,.12);
+    --c-amber-soft:rgba(251,191,36,.12);
+    --border:rgba(148,163,184,.18);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
+  .wrap{max-width:880px;margin:0 auto;padding:48px 24px 96px}
+  header{margin-bottom:36px}
+  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px}
+  h1{font-size:38px;line-height:1.2;margin:8px 0 12px;font-weight:700}
+  .subtitle{color:var(--muted);font-size:16px;margin:0}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .chip{padding:4px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
+  section.card{
+    background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:24px 26px;margin:18px 0;position:relative;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset,0 12px 30px rgba(0,0,0,.25);
+  }
+  section.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0}
+  section.card.h-cyan::before{background:var(--c-cyan)}
+  section.card.h-purple::before{background:var(--c-purple)}
+  section.card.h-amber::before{background:var(--c-amber)}
+  section.card h2{margin:0 0 14px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card h2 .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:auto;border:1px solid var(--border);padding:2px 8px;border-radius:6px}
+  ul,ol{margin:8px 0 8px 20px;padding:0}
+  li{margin:6px 0}
+  code{background:rgba(255,255,255,.05);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.92em;color:#fde68a}
+  pre{background:#0b1224;border:1px solid var(--border);padding:14px;border-radius:10px;overflow:auto;font-family:"JetBrains Mono","Consolas",monospace;font-size:13px}
+  blockquote{
+    margin:14px 0;padding:10px 16px;border-left:3px solid var(--c-cyan);
+    background:rgba(34,211,238,.06);border-radius:0 10px 10px 0;color:#cbd5e1;
+  }
+  blockquote.amber{border-left-color:var(--c-amber);background:var(--c-amber-soft)}
+  blockquote.purple{border-left-color:var(--c-purple);background:var(--c-purple-soft)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:500;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
+  a{color:#7dd3fc;text-decoration:none;border-bottom:1px dotted rgba(125,211,252,.4)}
+  a:hover{border-bottom-style:solid}
+  .skill-anatomy{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;
+  }
+  .skill-anatomy .blk{background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;color:#cbd5e1}
+  .skill-anatomy .blk b{display:block;color:var(--c-purple);font-size:13px;margin-bottom:4px}
+  footer{margin-top:40px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;background:rgba(34,197,94,.15);color:#86efac;margin-left:6px}
+  .pill.warn{background:rgba(251,191,36,.15);color:#fcd34d}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="crumb">xiaobai-nixiangji · learning-materials · skill.html</div>
+  <h1>Skill · 可复用的任务知识包</h1>
+  <p class="subtitle">一份由 <code>learn-concept</code> Skill 生成的结构化学习卡片</p>
+  <div class="meta">
+    <span class="chip">概念域 · AI / Agent 工程</span>
+    <span class="chip">生成时间 · 2026-09-08</span>
+    <span class="chip">作者核查 · 已完成</span>
+    <span class="chip">先验假设 · 入门</span>
+  </div>
+</header>
+
+<section class="card h-cyan">
+  <h2>1. 学习目标 <span class="tag">OBJECTIVE</span></h2>
+  <ul>
+    <li><b>描述</b> Skill 在 AI Agent 系统里扮演什么角色,与 Prompt / Tool / Agent 的区别。</li>
+    <li><b>解释</b> SKILL.md 的典型结构(YAML frontmatter + 说明 + 可选脚本/资源)。</li>
+    <li><b>应用</b> 判断一个工作流该写 Skill 还是只写一段 Prompt。</li>
+  </ul>
+</section>
+
+<section class="card h-purple">
+  <h2>2. 核心问题 <span class="tag">CORE QUESTION</span></h2>
+  <ol>
+    <li>Skill 和一段写进 System Prompt 的指令有什么不同?</li>
+    <li>Skill 是不是就是 OpenAI 的 GPTs / Assistants?</li>
+    <li>Skill 为什么通常做成"按需加载",而不是一次塞进上下文?</li>
+    <li>Skill 写完放在哪?谁负责加载它?</li>
+    <li>Skill 的可复用性和 Agent 的自主性会不会冲突?</li>
+  </ol>
+</section>
+
+<section class="card h-cyan">
+  <h2>3. 结构化解释 <span class="tag">STRUCTURED</span></h2>
+
+  <h3 style="color:#7dd3fc;margin-top:0">一句话定义</h3>
+  <blockquote>
+    Skill 是 <b>把特定任务的专业知识(指令、流程、参考资料、可选脚本)打包成一个名字清楚、可被按需加载的文件夹</b>,让 AI 在需要时"临时学会"做这一件事。
+  </blockquote>
+
+  <h3 style="color:#7dd3fc">SKILL.md 的三段式结构</h3>
+  <div class="skill-anatomy">
+    <div class="blk"><b>① 元数据</b>YAML 写在文件最上方:name / description / 触发场景说明</div>
+    <div class="blk"><b>② 行为说明</b>Markdown 主体:适用场景、输入、流程、输出、自检</div>
+    <div class="blk"><b>③ 资源附件</b>scripts / templates / reference.md 等按需加载</div>
+  </div>
+
+  <h3 style="color:#7dd3fc">"渐进式披露"是如何工作的</h3>
+  <ol>
+    <li>系统启动时,模型只看到每个 Skill 的 <b>name + description</b>(几十 token)。</li>
+    <li>用户提出任务 → 模型判断哪个 Skill 匹配 → 读取其 <b>SKILL.md 全文</b>。</li>
+    <li>如果 SKILL.md 里引了脚本或模板,需要时再读相应文件。</li>
+    <li>整个过程类似"工具调用",但载的是<b>知识</b>而不是外部 API 结果。</li>
+  </ol>
+  <p>Anthropic 在 2025 年公开的 Agent Skills 即采用这种"先读 description,再加载主体"的范式,目的是<b>不污染上下文</b>的同时让专长可复用。<sup>[1][2]</sup></p>
+</section>
+
+<section class="card h-purple">
+  <h2>4. 应用场景 <span class="tag">CASE</span></h2>
+  <blockquote>
+    <b>场景</b>:你每次让 AI 总结 arXiv 论文都要重复一段很长的固定指令 + 输出格式,你把它打包成 <code>arxiv-summarizer</code> Skill。<br><br>
+    <b>怎么落地</b>:
+    <ol>
+      <li>建 <code>arxiv-summarizer/SKILL.md</code>,YAML 描述"<code>用结构化方式总结学术论文</code>"。</li>
+      <li>正文写明:输入是论文标题 / 摘要 / PDF 链接,输出固定为<b>3 句话核心 + 1 张方法表 + 1 段质疑</b>。</li>
+      <li>附一个 <code>templates/summary-table.md</code> 给模型参考。</li>
+      <li>以后每次只要说"用 arxiv-summarizer 处理这篇",模型就知道怎么做。</li>
+    </ol>
+    <b>边界</b>:如果任务本身不重复(Skill 写完只用一次),就不值得做 Skill,Prompt 反而更快。
+  </blockquote>
+</section>
+
+<section class="card h-amber">
+  <h2>5. 概念辨析 & 使用边界 <span class="tag">BOUNDARY</span></h2>
+  <table>
+    <thead><tr><th>对比项</th><th>Prompt</th><th>Skill</th><th>Tool / Function</th><th>Agent</th></tr></thead>
+    <tbody>
+      <tr><td>形态</td><td>一段文本</td><td>带元数据的文件夹</td><td>可执行函数</td><td>带循环的运行实体</td></tr>
+      <tr><td>复用方式</td><td>复制粘贴</td><td>按需加载</td><td>按需调用</td><td>—</td></tr>
+      <tr><td>能写代码</td><td>否</td><td>是(可选)</td><td>必须</td><td>通常包括</td></tr>
+      <tr><td>核心价值</td><td>风格控制</td><td>专长沉淀</td><td>能力扩展</td><td>目标完成</td></tr>
+    </tbody>
+  </table>
+  <blockquote class="amber">
+    <b>三条硬边界</b>:
+    <ol>
+      <li><b>不要把 Skill 当万能钥匙</b>:它沉淀的是<b>我每次都要做的事</b>,不是"任何事都能做的开关"。</li>
+      <li><b>不要把"业务规则"塞进 description 里全部公开</b>:description 永远加载 → 写得越短越隐私友好。</li>
+      <li><b>不要和"工具调用"混淆</b>:Skill 是<b>告诉 AI 怎么做事</b>,Tool 是<b>让 AI 真的去拿数据 / 改状态</b>。</li>
+    </ol>
+  </blockquote>
+</section>
+
+<section class="card h-cyan">
+  <h2>6. 自测题 <span class="tag">QUIZ</span></h2>
+  <ol>
+    <li>
+      <b>(定义)</b> 用一句话区分 Skill 与 System Prompt。
+      <details style="margin-top:6px;color:var(--muted)">
+        <summary>提示</summary>
+        System Prompt 永久占用上下文;Skill 是<b>按需加载</b>的知识包,不调用就不占位置。
+      </details>
+    </li>
+    <li>
+      <b>(机制)</b> 解释 SKILL.md 里为什么要单独留一段"输入字段表",而不是直接把字段写进 description。
+      <details style="margin-top:6px;color:var(--muted)">
+        <summary>提示</summary>
+        description 每轮都加载,要短;详细信息按需加载,可以长。<b>渐进式披露</b>的关键。
+      </details>
+    </li>
+    <li>
+      <b>(边界)</b> 给你一个"每天打开电脑,自动把昨天下载文件夹的文件按类型归档"的需求,你会不会写成 Skill?为什么?
+      <details style="margin-top:6px;color:var(--muted)">
+        <summary>提示</summary>
+        这更像是 <b>自动化脚本 + 定时任务</b>,不是可被 AI 调用、依赖 AI 推理的"知识包"。Skill 强调<b>AI 判断 + 知识沉淀</b>,归档更适合作 <b>automation</b>。
+      </details>
+    </li>
+  </ol>
+</section>
+
+<section class="card h-purple">
+  <h2>7. 参考来源 <span class="tag">SOURCES</span></h2>
+  <table>
+    <thead><tr><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>T1 厂商文章</td>
+        <td>Equipping agents for the real world with Agent Skills — Anthropic Engineering</td>
+        <td><a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T1 厂商文档</td>
+        <td>Agent Skills overview — Claude Docs</td>
+        <td><a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview">docs.claude.com/.../agent-skills/overview</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T1 厂商产品</td>
+        <td>Introducing GPTs — OpenAI</td>
+        <td><a href="https://openai.com/index/introducing-gpts/">openai.com/index/introducing-gpts</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T1 厂商文档</td>
+        <td>WorkBuddy Skills 文档</td>
+        <td><a href="https://www.workbuddy.cn/docs/workbuddy/Overview">workbuddy.cn/docs/workbuddy/Overview</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
+  所有引用链接截至 2026-09-08 可访问;若链接变更请以官方归档(web.archive.org)为准。
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>概念卡片 · 大模型的上下文 · xiaobai-nixiangji</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root{
+    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d;
+    --text:#e2e8f0; --muted:#94a3b8;
+    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185;
+    --c-cyan-soft:rgba(34,211,238,.12);
+    --c-purple-soft:rgba(167,139,250,.12);
+    --c-amber-soft:rgba(251,191,36,.12);
+    --border:rgba(148,163,184,.18);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
+  .wrap{max-width:880px;margin:0 auto;padding:48px 24px 96px}
+  header{margin-bottom:36px}
+  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px}
+  h1{font-size:38px;line-height:1.2;margin:8px 0 12px;font-weight:700}
+  .subtitle{color:var(--muted);font-size:16px;margin:0}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .chip{padding:4px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
+  section.card{
+    background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:24px 26px;margin:18px 0;position:relative;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset,0 12px 30px rgba(0,0,0,.25);
+  }
+  section.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0}
+  section.card.h-cyan::before{background:var(--c-cyan)}
+  section.card.h-purple::before{background:var(--c-purple)}
+  section.card.h-amber::before{background:var(--c-amber)}
+  section.card h2{margin:0 0 14px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card h2 .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:auto;border:1px solid var(--border);padding:2px 8px;border-radius:6px}
+  ul,ol{margin:8px 0 8px 20px;padding:0}
+  li{margin:6px 0}
+  code{background:rgba(255,255,255,.05);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.92em;color:#fde68a}
+  pre{background:#0b1224;border:1px solid var(--border);padding:14px;border-radius:10px;overflow:auto;font-family:"JetBrains Mono","Consolas",monospace;font-size:13px}
+  blockquote{
+    margin:14px 0;padding:10px 16px;border-left:3px solid var(--c-cyan);
+    background:rgba(34,211,238,.06);border-radius:0 10px 10px 0;color:#cbd5e1;
+  }
+  blockquote.amber{border-left-color:var(--c-amber);background:var(--c-amber-soft)}
+  blockquote.purple{border-left-color:var(--c-purple);background:var(--c-purple-soft)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:500;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
+  a{color:#7dd3fc;text-decoration:none;border-bottom:1px dotted rgba(125,211,252,.4)}
+  a:hover{border-bottom-style:solid}
+  .context-flow{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0;
+  }
+  .context-flow .blk{background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px 10px;font-size:13px;text-align:center;color:#cbd5e1}
+  .context-flow .blk b{display:block;color:var(--c-purple);font-size:13px;margin-bottom:4px}
+  .arrow{display:flex;justify-content:center;color:var(--c-cyan);font-size:20px;margin:-4px 0}
+  footer{margin-top:40px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;background:rgba(34,197,94,.15);color:#86efac;margin-left:6px}
+  .pill.warn{background:rgba(251,191,36,.15);color:#fcd34d}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="crumb">xiaobai-nixiangji · learning-materials · llm-context.html</div>
+  <h1>大模型的上下文 (Context)</h1>
+  <p class="subtitle">一份由 <code>learn-concept</code> Skill 生成的结构化学习卡片</p>
+  <div class="meta">
+    <span class="chip">概念域 · AI / LLM</span>
+    <span class="chip">生成时间 · 2026-09-08</span>
+    <span class="chip">作者核查 · 已完成</span>
+    <span class="chip">先验假设 · 入门</span>
+  </div>
+</header>
+
+<section class="card h-cyan">
+  <h2>1. 学习目标 <span class="tag">OBJECTIVE</span></h2>
+  <ul>
+    <li><b>描述</b> "上下文"在 LLM 中的具体含义(不是日常口语里的"语境")。</li>
+    <li><b>解释</b> 上下文窗口(Context Window)与位置偏差(Lost-in-the-Middle)对输出的影响。</li>
+    <li><b>区分</b> 上下文、记忆、微调、RAG 之间的功能差异。</li>
+  </ul>
+</section>
+
+<section class="card h-purple">
+  <h2>2. 核心问题 <span class="tag">CORE QUESTION</span></h2>
+  <ol>
+    <li>模型"读到的"和"记住的"是同一回事吗?</li>
+    <li>为什么上下文窗口不是越大越好?</li>
+    <li>为什么把关键信息塞在上下文开头 / 末尾最有用?</li>
+    <li>上下文、记忆、微调、RAG 怎么分工?</li>
+    <li>上下文满了之后会发生什么?</li>
+  </ol>
+</section>
+
+<section class="card h-cyan">
+  <h2>3. 结构化解释 <span class="tag">STRUCTURED</span></h2>
+
+  <h3 style="color:#7dd3fc;margin-top:0">一句话定义</h3>
+  <blockquote>
+    大模型的"上下文"是指<b>这一次推理请求里,模型能"看见"的全部 token 序列</b>(系统提示 + 用户消息 + 工具结果 + 历史对话 + 检索片段),它决定模型本轮回答的依据。
+  </blockquote>
+
+  <h3 style="color:#7dd3fc">一个请求的上下文长什么样</h3>
+  <div class="context-flow">
+    <div class="blk"><b>System</b>系统提示 / 角色设定</div>
+    <div class="blk"><b>Tools</b>工具描述 + Schema</div>
+    <div class="blk"><b>History</b>历史消息(可能含压缩后摘要)</div>
+    <div class="blk"><b>User + RAG</b>当前问题 + 检索片段</div>
+  </div>
+  <div class="arrow">↓</div>
+  <div class="context-flow" style="grid-template-columns:1fr">
+    <div class="blk"><b>Context Window</b> 所有上述内容被 token 化后送进模型,总长受窗口限制(单位:token,不是字符)。</div>
+  </div>
+
+  <h3 style="color:#7dd3fc">三件事决定上下文"好不好用"</h3>
+  <ol>
+    <li><b>窗口大小</b>:决定了能塞多长文档。GPT-4 类早期为 8K,Claude 3 / 4 主流已到 200K,部分模型到 1M+。<sup>[2][4]</sup></li>
+    <li><b>位置偏差</b>:"Lost in the Middle" 论文实证发现,模型对<b>开头和结尾</b>的信息召回最强,中间段最弱。<sup>[3]</sup></li>
+    <li><b>信噪比</b>:塞太多无关内容会稀释关键指令,模型会"分心"。</li>
+  </ol>
+</section>
+
+<section class="card h-purple">
+  <h2>4. 应用场景 <span class="tag">CASE</span></h2>
+  <blockquote>
+    <b>场景</b>:客服让 AI 助手参考一份 80 页 PDF 回答客户问题。<br><br>
+    <b>怎么用上下文</b>:
+    <ol>
+      <li>把 PDF 拆成 chunk(每 500 token 一段),用嵌入模型建索引。</li>
+      <li>用户提问时,先<b>检索</b>最相关的 3–5 个 chunk。</li>
+      <li>把"系统提示 + 历史 + 检索片段 + 用户问题"拼成完整上下文送给模型。</li>
+      <li>回答时附<b>引用页码</b>,便于用户追溯。</li>
+    </ol>
+    <b>边界</b>:如果检索不准,再大的窗口也救不了答案;同时也不要把整本 PDF 原样灌进上下文 —— 会触发"中间遗忘"并严重拖累成本。
+  </blockquote>
+</section>
+
+<section class="card h-amber">
+  <h2>5. 概念辨析 & 使用边界 <span class="tag">BOUNDARY</span></h2>
+  <table>
+    <thead><tr><th>概念</th><th>持久性</th><th>更新成本</th><th>能学到新事实吗</th></tr></thead>
+    <tbody>
+      <tr><td><b>上下文</b></td><td>仅本次请求</td><td>每次请求重算</td><td>能(写进 prompt)</td></tr>
+      <tr><td><b>记忆(Memory)</b></td><td>跨会话</td><td>中等(写向量库)</td><td>能</td></tr>
+      <tr><td><b>微调(Fine-tune)</b></td><td>永久(进权重)</td><td>高(重新训练)</td><td>能,但昂贵</td></tr>
+      <tr><td><b>RAG</b></td><td>由检索条件决定</td><td>低(只需更新文档库)</td><td>能,最便宜</td></tr>
+    </tbody>
+  </table>
+  <blockquote class="amber">
+    <b>四条硬边界</b>:
+    <ol>
+      <li><b>不要把"敏感信息"放进上下文</b>:它会被发往第三方 API,日志可能被留档。</li>
+      <li><b>不要假定"窗口大 = 记得住"</b>:位置偏差是结构问题,与大小无关。</li>
+      <li><b>不要混淆"上下文里的事实"和"模型学到的"</b>:前者只对本次推理有效,后者是权重。</li>
+      <li><b>不要在上下文里塞"几乎用不到的旧消息"</b>:每多一个 token 都是钱,且会冲淡当前指令。</li>
+    </ol>
+  </blockquote>
+</section>
+
+<section class="card h-cyan">
+  <h2>6. 自测题 <span class="tag">QUIZ</span></h2>
+  <ol>
+    <li>
+      <b>(定义)</b> 用一句话区分"上下文"和"记忆",并给出存储位置的差异。
+      <details style="margin-top:6px;color:var(--muted)">
+        <summary>提示</summary>
+        上下文存在<b>本次请求的 prompt</b>里;记忆存在<b>外部存储</b>(向量库 / 数据库),需要时再<b>检索</b>回上下文。
+      </details>
+    </li>
+    <li>
+      <b>(机制)</b> 解释"Lost in the Middle"现象为什么会发生,以及它对"提示词排版"的实操影响。
+      <details style="margin-top:6px;color:var(--muted)">
+        <summary>提示</summary>
+        因为 attention 分布与位置相关;实操 = 把<b>最重要指令放最开头或最末尾</b>,关键引用放结尾 System 提示里。
+      </details>
+    </li>
+    <li>
+      <b>(边界)</b> 假设你有一个 200K 窗口的模型,要把三本 PDF 给它当知识库,你会怎么设计?为什么不直接整本灌进去?
+      <details style="margin-top:6px;color:var(--muted)">
+        <summary>提示</summary>
+        用 RAG:先建索引,提问时只检索相关片段拼成上下文。直接灌 → 中间遗忘 + 成本爆炸 + 单次会话难以追溯引用。
+      </details>
+    </li>
+  </ol>
+</section>
+
+<section class="card h-purple">
+  <h2>7. 参考来源 <span class="tag">SOURCES</span></h2>
+  <table>
+    <thead><tr><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>T0 论文</td>
+        <td>Attention Is All You Need (Vaswani et al., 2017)</td>
+        <td><a href="https://arxiv.org/abs/1706.03762">arxiv.org/abs/1706.03762</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T1 厂商文档</td>
+        <td>Prompt engineering overview — Anthropic</td>
+        <td><a href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">docs.claude.com/.../prompt-engineering/overview</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T0 论文</td>
+        <td>Lost in the Middle: How Language Models Use Long Contexts (Liu et al., 2023)</td>
+        <td><a href="https://arxiv.org/abs/2307.03172">arxiv.org/abs/2307.03172</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T2 背景</td>
+        <td>Context window — Wikipedia</td>
+        <td><a href="https://en.wikipedia.org/wiki/Context_window">en.wikipedia.org/wiki/Context_window</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T1 厂商文章</td>
+        <td>Long context — Anthropic news</td>
+        <td><a href="https://www.anthropic.com/news/100k-context-windows">anthropic.com/news/100k-context-windows</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
+  所有引用链接截至 2026-09-08 可访问;若链接变更请以官方归档(web.archive.org)为准。
+</footer>
+
+</div>
+</body>
+</html>
