@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小白逆袭计 · AI 概念学习资料库</title>
+<style>
+  :root{
+    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d;
+    --text:#e2e8f0; --muted:#94a3b8;
+    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-emerald:#34d399;
+    --border:rgba(148,163,184,.18);
+    --radius:16px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
+  .hero{padding:72px 24px 40px;text-align:center;border-bottom:1px solid var(--border)}
+  .hero .badge{display:inline-block;padding:4px 12px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--c-cyan);font-family:"JetBrains Mono","Consolas",monospace;letter-spacing:1px}
+  .hero h1{font-size:44px;margin:18px 0 10px;font-weight:700}
+  .hero p{color:var(--muted);font-size:17px;max-width:640px;margin:0 auto}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  a.card{
+    display:block;text-decoration:none;color:var(--text);
+    background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
+    border:1px solid var(--border);border-radius:var(--radius);
+    padding:22px 24px;position:relative;overflow:hidden;
+    transition:transform .15s ease,border-color .15s ease;
+    box-shadow:0 1px 0 rgba(255,255,255,.02) inset,0 12px 30px rgba(0,0,0,.25);
+  }
+  a.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0}
+  a.card:hover{transform:translateY(-3px);border-color:rgba(148,163,184,.4)}
+  a.card.cyan::before{background:var(--c-cyan)}
+  a.card.purple::before{background:var(--c-purple)}
+  a.card.amber::before{background:var(--c-amber)}
+  a.card.emerald::before{background:var(--c-emerald)}
+  a.card .idx{font-family:"JetBrains Mono","Consolas",monospace;font-size:12px;color:var(--muted)}
+  a.card h2{margin:6px 0 8px;font-size:20px;font-weight:600}
+  a.card p{margin:0;color:var(--muted);font-size:14px}
+  a.card .go{margin-top:14px;font-size:13px;color:#7dd3fc;font-family:"JetBrains Mono","Consolas",monospace}
+  footer{margin-top:40px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px;text-align:center}
+  footer a{color:#7dd3fc}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="badge">AI CONCEPT CORPUS</span>
+  <h1>小白逆袭计</h1>
+  <p>个人 AI 概念学习资料库 · 由项目级 Skill <code style="background:rgba(255,255,255,.06);padding:2px 6px;border-radius:5px">learn-concept</code> 生成 · 作者核查与维护</p>
+</div>
+
+<div class="wrap">
+  <div class="grid">
+
+    <a class="card cyan" href="learning-materials/agent.html">
+      <div class="idx">CONCEPT 01</div>
+      <h2>Agent · 智能体</h2>
+      <p>能自主规划、通过工具与外部世界交互以完成目标的 LLM 系统。核心机制:ReAct 循环。</p>
+      <div class="go">阅读卡片 →</div>
+    </a>
+
+    <a class="card purple" href="learning-materials/llm-context.html">
+      <div class="idx">CONCEPT 02</div>
+      <h2>大模型的上下文</h2>
+      <p>一次推理里模型能"看见"的全部 token 序列。核心机制:上下文窗口 + 位置偏差。</p>
+      <div class="go">阅读卡片 →</div>
+    </a>
+
+    <a class="card amber" href="learning-materials/skill.html">
+      <div class="idx">CONCEPT 03</div>
+      <h2>Skill · 任务知识包</h2>
+      <p>把特定任务的专业知识打包成可被按需加载的文件夹。核心机制:渐进式披露。</p>
+      <div class="go">阅读卡片 →</div>
+    </a>
+
+    <a class="card emerald" href="learning-materials/concept-relationship.html">
+      <div class="idx">RELATIONSHIP</div>
+      <h2>三者的关系</h2>
+      <p>上下文如何驱动 Agent 工作,Skill 如何沉淀可复用知识。含关系图与对比表。</p>
+      <div class="go">阅读卡片 →</div>
+    </a>
+
+  </div>
+
+  <footer>
+    源码仓库:<a href="https://github.com/wdy2026/xiaobai-nixiangji">github.com/wdy2026/xiaobai-nixiangji</a><br>
+    建议阅读顺序:先看「三者的关系」建立全局,再逐个看 Agent → 上下文 → Skill。
+  </footer>
+</div>
+
+</body>
+</html>

@@ -2,6 +2,8 @@
 
 > 个人 AI 概念学习资料库 · 由项目级 Skill `learn-concept` 生成 · 作者核查与维护
 
+**在线预览(渲染效果)**:https://wdy2026.github.io/xiaobai-nixiangji/
+
 ## 这个仓库是什么
 
 这是为温丹艺建立的个人学习仓库,用于沉淀 AI、数据与媒介相关概念的结构化学习卡片。
