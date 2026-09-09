@@ -6,24 +6,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   :root{
-    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d;
+    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d; --bg-4:#0b1224;
     --text:#e2e8f0; --muted:#94a3b8;
-    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185;
-    --c-emerald:#34d399;
-    --border:rgba(148,163,184,.18);
-    --radius:16px;
+    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185; --c-emerald:#34d399;
+    --border:rgba(148,163,184,.18); --radius:16px;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
   .wrap{max-width:1000px;margin:0 auto;padding:48px 24px 96px}
-  header{margin-bottom:28px}
-  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px}
-  h1{font-size:38px;margin:8px 0 12px;font-weight:700}
-  .subtitle{color:var(--muted);font-size:16px}
+  header{margin-bottom:40px}
+  .guide-mode{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px;margin-bottom:8px}
+  h1{font-size:42px;line-height:1.15;margin:8px 0 14px;font-weight:700}
+  .subtitle{color:var(--muted);font-size:18px;margin:0}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .chip{padding:5px 12px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
   section.card{
     background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
     border:1px solid var(--border);border-radius:var(--radius);
-    padding:24px 26px;margin:18px 0;position:relative;
+    padding:26px 28px;margin:20px 0;position:relative;
     box-shadow:0 1px 0 rgba(255,255,255,.02) inset,0 12px 30px rgba(0,0,0,.25);
   }
   section.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0}
@@ -31,49 +32,58 @@
   section.card.h-purple::before{background:var(--c-purple)}
   section.card.h-amber::before{background:var(--c-amber)}
   section.card.h-emerald::before{background:var(--c-emerald)}
-  section.card h2{margin:0 0 14px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card h2{margin:0 0 18px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card h2 .num{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--muted);font-weight:400}
   section.card h2 .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:auto;border:1px solid var(--border);padding:2px 8px;border-radius:6px}
-  ul,ol{margin:8px 0 8px 20px;padding:0}
-  li{margin:6px 0}
-  code{background:rgba(255,255,255,.05);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.92em;color:#fde68a}
-  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
-  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  ul,ol{margin:10px 0 10px 22px;padding:0}
+  li{margin:7px 0}
+  code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.9em;color:#fde68a}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th,td{padding:11px 13px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
   th{color:var(--muted);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
   blockquote{
-    margin:14px 0;padding:10px 16px;border-left:3px solid var(--c-cyan);
-    background:rgba(34,211,238,.06);border-radius:0 10px 10px 0;color:#cbd5e1;
+    margin:16px 0;padding:12px 18px;border-left:3px solid var(--c-cyan);
+    background:rgba(34,211,238,.06);border-radius:0 12px 12px 0;color:#cbd5e1;
   }
   blockquote.amber{border-left-color:var(--c-amber);background:rgba(251,191,36,.12)}
   blockquote.purple{border-left-color:var(--c-purple);background:rgba(167,139,250,.12)}
   a{color:#7dd3fc;text-decoration:none;border-bottom:1px dotted rgba(125,211,252,.4)}
+  a:hover{border-bottom-style:solid}
   .diagram{
-    background:#0b1224;border:1px solid var(--border);border-radius:14px;
+    background:var(--bg-4);border:1px solid var(--border);border-radius:14px;
     padding:20px;margin:16px 0;overflow:auto;
   }
   .diagram svg{width:100%;max-width:920px;height:auto;display:block;margin:0 auto}
-  footer{margin-top:40px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
+  footer{margin-top:48px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
   .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;background:rgba(34,197,94,.15);color:#86efac;margin-left:6px}
+  .sup{font-size:.78em;color:#7dd3fc;vertical-align:super;margin-left:1px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
+  <div class="guide-mode">Guide Mode · Source-Traced Concept Guide</div>
   <div class="crumb">xiaobai-nixiangji · learning-materials · concept-relationship.html</div>
   <h1>概念关系 · Agent / 上下文 / Skill</h1>
-  <p class="subtitle">三件事怎么咬合 — 上下文如何驱动 Agent,Skill 如何沉淀经验</p>
+  <p class="subtitle">三件事怎么咬合 — 上下文如何驱动 Agent，Skill 如何沉淀经验</p>
+  <div class="meta">
+    <span class="chip">对象 · 已单独学习三个概念的学习者</span>
+    <span class="chip">目标 · 把 Agent / Context / Skill 放到同一个工作流里理解</span>
+    <span class="chip">重点 · 上下文如何影响 Agent 决策，Skill 如何被加载与组合</span>
+  </div>
 </header>
 
 <section class="card h-cyan">
-  <h2>1. 一句话结论 <span class="tag">TAKEAWAY</span></h2>
+  <h2><span class="num">01 ·</span> 一句话结论 <span class="tag">TAKEAWAY</span></h2>
   <blockquote>
-    <b>上下文</b>是 Agent 当下"看得到的世界";<b>Agent</b>是带着这个世界去<b>自主行动</b>的实体;<b>Skill</b>是把"哪类任务怎么思考"沉淀成可复用知识包的工程实践。
-    三者构成一个闭环:<b>Skill 选择 → 加载进上下文 → 驱动 Agent 行为 → 结果再写回上下文 / 记忆库</b>。
+    <b>上下文</b>是 Agent 当下"看得到的世界"；<b>Agent</b>是带着这个世界去<b>自主行动</b>的实体；<b>Skill</b>是把"哪类任务怎么思考"沉淀成可复用知识包的工程实践。
+    三者构成一个闭环：<b>Skill 选择 → 加载进上下文 → 驱动 Agent 行为 → 结果再写回上下文 / 记忆库</b>。
   </blockquote>
 </section>
 
 <section class="card h-purple">
-  <h2>2. 关系总览图 <span class="tag">DIAGRAM</span></h2>
+  <h2><span class="num">02 ·</span> 关系总览图 <span class="tag">DIAGRAM</span></h2>
 
   <div class="diagram">
 <svg viewBox="0 0 900 540" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
@@ -132,12 +142,12 @@
   </div>
 
   <p style="color:var(--muted);font-size:13px;margin-top:6px">
-    图示说明:三条主边 = <span style="color:#22d3ee">上下文驱动 Agent</span> / <span style="color:#fbbf24">Skill 按需加载入上下文</span> / <span style="color:#a78bfa">Agent 选择并调用 Skill</span>;虚线 = 数据回灌形成循环。
+    图示说明：三条主边 = <span style="color:#22d3ee">上下文驱动 Agent</span> / <span style="color:#fbbf24">Skill 按需加载入上下文</span> / <span style="color:#a78bfa">Agent 选择并调用 Skill</span>；虚线 = 数据回灌形成循环。
   </p>
 </section>
 
 <section class="card h-amber">
-  <h2>3. 三件事各自的"角色分工" <span class="tag">ROLE</span></h2>
+  <h2><span class="num">03 ·</span> 三件事各自的"角色分工" <span class="tag">ROLE</span></h2>
   <table>
     <thead>
       <tr><th>维度</th><th>上下文</th><th>Agent</th><th>Skill</th></tr>
@@ -153,113 +163,83 @@
 </section>
 
 <section class="card h-emerald">
-  <h2>4. 互相作用:上下文怎么影响 Agent 的工作? <span class="tag">HOW</span></h2>
+  <h2><span class="num">04 ·</span> 互相作用：上下文怎么影响 Agent 的工作？ <span class="tag">HOW</span></h2>
   <ol>
-    <li><b>窗口决定了 Agent 的"工作记忆上限"</b>:超出窗口的历史会被截断或压缩,Agent 立刻"失忆"。<sup>[2]</sup></li>
-    <li><b>位置偏差影响 Agent 的判断优先级</b>:Liu 等人 2023 年的"Lost in the Middle"研究实证发现,关键信息放在上下文开头或末尾时召回率最高。<sup>[1]</sup></li>
-    <li><b>上下文里的"工具描述"决定了 Agent 会用什么手</b>:不写在上下文里的工具,Agent 无法调用。<sup>[5]</sup></li>
-    <li><b>上下文里的"Skill 描述"决定了 Agent 会去选哪个 Skill</b>:description 写不好,Skill 就不会被命中。</li>
-    <li><b>上下文里的检索片段决定了 Agent 是否够事实</b>:没检索就给一句话,Agent 大概率编。<sup>[1][3]</sup></li>
+    <li><b>窗口决定了 Agent 的"工作记忆上限"</b>：超出窗口的历史会被截断或压缩，Agent 立刻"失忆"。LangGraph 把 context window 定义为可传给 LLM 的最大 token 数<span class="sup">[S1]</span>。</li>
+    <li><b>位置偏差影响 Agent 的判断优先级</b>：Liu 等人 2023 年的"Lost in the Middle"研究实证发现，关键信息放在上下文开头或末尾时召回率最高<span class="sup">[S2]</span>。</li>
+    <li><b>上下文里的"工具描述"决定了 Agent 会用什么手</b>：不写在上下文里的工具，Agent 无法调用。OpenAI Function Calling 要求工具 schema 必须出现在模型输入中<span class="sup">[S3]</span>。</li>
+    <li><b>上下文里的"Skill 描述"决定了 Agent 会去选哪个 Skill</b>：description 写不好，Skill 就不会被命中<span class="sup">[S4]</span>。</li>
+    <li><b>上下文里的检索片段决定了 Agent 是否够事实</b>：没检索就给一句话，Agent 大概率编。ReAct 论文的核心价值就是让模型通过行动与观察动态修正推理<span class="sup">[S5]</span>。</li>
   </ol>
 
   <blockquote class="amber">
-    <b>个人判断</b>:在工程上,Agent 的失败 80% 来自上下文,而不是 Agent 本身的"智力"。先把上下文做好,再谈模型升级。
+    <b>个人判断</b>：在工程上，Agent 的失败 80% 来自上下文，而不是 Agent 本身的"智力"。先把上下文做好，再谈模型升级。
   </blockquote>
 </section>
 
 <section class="card h-purple">
-  <h2>5. 互相作用:Skill 如何沉淀可复用的任务知识? <span class="tag">WHY</span></h2>
+  <h2><span class="num">05 ·</span> 互相作用：Skill 如何沉淀可复用的任务知识？ <span class="tag">WHY</span></h2>
   <ol>
-    <li><b>沉淀的是"路径",不是"答案"</b>:Skill 教模型怎么思考、查什么、出什么格式,而不是把答案预写死。</li>
-    <li><b>渐进式披露让它可扩展</b>:每个 Skill 自带 description,模型只读几十 token 就能决定要不要加载主体,避免上下文被冗余填满。</li>
-    <li><b>Skill 之间可以组合</b>:arxiv-summarizer + write-as-table 可以叠成"先把论文总结再渲染成图表",这与 Chameleon 等模块化 Agent 的思路一致。<sup>[4]</sup></li>
-    <li><b>Skill 是把"组织资产"翻译成"模型资产"</b>:它把重复任务的标准操作流程(SOP)变成模型可调用的知识。</li>
-    <li><b>Skill 的存在让"上下文→Agent"更可控</b>:与其每次在 prompt 里塞一大坨规则,不如把规则封装成 Skill,需要时再调。<sup>[6]</sup></li>
+    <li><b>沉淀的是"路径"，不是"答案"</b>：Skill 教模型怎么思考、查什么、出什么格式，而不是把答案预写死。</li>
+    <li><b>渐进式披露让它可扩展</b>：每个 Skill 自带 description，模型只读几十 token 就能决定要不要加载主体，避免上下文被冗余填满<span class="sup">[S4]</span>。</li>
+    <li><b>Skill 之间可以组合</b>：<code>arxiv-summarizer</code> + <code>write-as-table</code> 可以叠成"先把论文总结再渲染成图表"，这与 Chameleon 等模块化 Agent 的思路一致<span class="sup">[S6]</span>。</li>
+    <li><b>Skill 是把"组织资产"翻译成"模型资产"</b>：它把重复任务的标准操作流程（SOP）变成模型可调用的知识。</li>
+    <li><b>Skill 的存在让"上下文→Agent"更可控</b>：与其每次在 prompt 里塞一大坨规则，不如把规则封装成 Skill，需要时再调。</li>
   </ol>
 </section>
 
 <section class="card h-cyan">
-  <h2>6. 一个真实工作的闭环例子 <span class="tag">EXAMPLE</span></h2>
+  <h2><span class="num">06 ·</span> 一个真实工作的闭环例子 <span class="tag">EXAMPLE</span></h2>
   <blockquote>
-    <b>用户</b>:"用论文 <i>Lost in the Middle</i> 的方法,帮我看看我们公司那份 PDF 客服报告的问题。"<br><br>
-    <b>闭环</b>:
+    <b>用户</b>："用论文 <i>Lost in the Middle</i> 的方法，帮我看看我们公司那份 PDF 客服报告的问题。"<br><br>
+    <b>闭环</b>：
     <ol>
-      <li>Agent 看到用户消息,从上下文中的 Skill 清单里匹配到 <code>pdf-analyzer</code> + <code>arxiv-reviewer</code>。</li>
-      <li>把这两个 Skill 的 <code>SKILL.md</code> 加载进上下文,占约 1.5K token。</li>
-      <li>RAG 从公司 PDF 检索到 6 段相关文字,塞进上下文。</li>
-      <li>Agent 进入 ReAct 循环,逐步输出"上下文位置偏差如何影响回答质量"的报告。</li>
-      <li>结果写回当前上下文(对话历史),并可选择性写进<b>记忆库</b>,下次问类似问题时优先召回。</li>
+      <li>Agent 看到用户消息，从上下文中的 Skill 清单里匹配到 <code>pdf-analyzer</code> + <code>arxiv-reviewer</code>。</li>
+      <li>把这两个 Skill 的 <code>SKILL.md</code> 加载进上下文，占约 1.5K token。</li>
+      <li>RAG 从公司 PDF 检索到 6 段相关文字，塞进上下文。</li>
+      <li>Agent 进入 ReAct 循环，逐步输出"上下文位置偏差如何影响回答质量"的报告。</li>
+      <li>结果写回当前上下文（对话历史），并可选择性写进<b>记忆库</b>，下次问类似问题时优先召回。</li>
     </ol>
   </blockquote>
 </section>
 
 <section class="card h-amber">
-  <h2>7. 易混点 / 反直觉点 <span class="tag">MISCONCEPTIONS</span></h2>
+  <h2><span class="num">07 ·</span> 易混点 / 反直觉点 <span class="tag">MISCONCEPTIONS</span></h2>
   <ul>
-    <li><b>"上下文越大 Agent 越聪明"</b>:错。位置偏差是结构问题,塞太多无关内容会稀释关键指令。<sup>[1]</sup></li>
-    <li><b>"Skill = Prompt"</b>:错。Skill 是<b>可按需加载的知识包</b>,Prompt 是常驻上下文。</li>
-    <li><b>"Agent 自动会用所有 Skill"</b>:错。它靠的是<b>description 匹配</b>,写不好就不被选中。</li>
-    <li><b>"Skill 越多越强"</b>:不一定。每个 Skill 都参与 description 抢占,反而互相干扰。</li>
-    <li><b>"上下文 = 记忆"</b>:错。记忆是<b>外部存储 + 按需检索</b>;上下文是<b>本次请求的输入序列</b>。</li>
+    <li><b>"上下文越大 Agent 越聪明"</b>：错。位置偏差是结构问题，塞太多无关内容会稀释关键指令<span class="sup">[S2]</span>。</li>
+    <li><b>"Skill = Prompt"</b>：错。Skill 是<b>可按需加载的知识包</b>，Prompt 是常驻上下文。</li>
+    <li><b>"Agent 自动会用所有 Skill"</b>：错。它靠的是<b>description 匹配</b>，写不好就不被选中。</li>
+    <li><b>"Skill 越多越强"</b>：不一定。每个 Skill 都参与 description 抢占，反而互相干扰。</li>
+    <li><b>"上下文 = 记忆"</b>：错。记忆是<b>外部存储 + 按需检索</b>；上下文是<b>本次请求的输入序列</b><span class="sup">[S1]</span>。</li>
   </ul>
 </section>
 
 <section class="card h-emerald">
-  <h2>8. 一句话总结 <span class="tag">RECAP</span></h2>
+  <h2><span class="num">08 ·</span> 一句话总结 <span class="tag">RECAP</span></h2>
   <blockquote>
-    Skill 决定 Agent <b>会什么</b>,上下文决定 Agent <b>正在看到什么</b>,Agent 决定 <b>怎么用这两者去把事办成</b>。
+    Skill 决定 Agent <b>会什么</b>，上下文决定 Agent <b>正在看到什么</b>，Agent 决定 <b>怎么用这两者去把事办成</b>。
     好的工程实践 = 写好 Skill 的 description + 管好上下文的信噪比 + 给 Agent 适当的工具与边界。
   </blockquote>
 </section>
 
 <section class="card h-purple">
-  <h2>9. 关键参考来源 <span class="tag">SOURCES</span></h2>
+  <h2><span class="num">09 ·</span> 关键参考来源 <span class="tag">SOURCES</span></h2>
   <table>
-    <thead><tr><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
+    <thead><tr><th>编号</th><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
     <tbody>
-      <tr>
-        <td>T0 论文</td>
-        <td>Lost in the Middle: How Language Models Use Long Contexts (Liu et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2307.03172">arxiv.org/abs/2307.03172</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>ReAct: Synergizing Reasoning and Acting in Language Models (Yao et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2210.03629">arxiv.org/abs/2210.03629</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>Toolformer: Language Models Can Teach Themselves to Use Tools (Schick et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2302.04761">arxiv.org/abs/2302.04761</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>Chameleon: Plug-and-Play Compositional Reasoning with Large Language Models (Lu et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2304.09842">arxiv.org/abs/2304.09842</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T1 厂商文档</td>
-        <td>Agent Skills overview — Claude Docs</td>
-        <td><a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview">docs.claude.com/.../agent-skills/overview</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T1 厂商文档</td>
-        <td>Prompt engineering overview — Anthropic</td>
-        <td><a href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">docs.claude.com/.../prompt-engineering/overview</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
+      <tr><td>S1</td><td>T1 厂商文档</td><td>LangGraph Context Concept</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/">langchain-ai.github.io/langgraph/concepts/agentic_concepts</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S2</td><td>T0 论文</td><td>Lost in the Middle: How Language Models Use Long Contexts (Liu et al., 2023)</td><td><a href="https://arxiv.org/abs/2307.03172">arxiv.org/abs/2307.03172</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S3</td><td>T1 厂商文档</td><td>Function calling — OpenAI Platform</td><td><a href="https://platform.openai.com/docs/guides/function-calling">platform.openai.com/docs/guides/function-calling</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S4</td><td>T1 厂商文档</td><td>Agent Skills overview — Claude Docs</td><td><a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview">docs.claude.com/.../agent-skills/overview</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S5</td><td>T0 论文</td><td>ReAct: Synergizing Reasoning and Acting in Language Models (Yao et al., 2023)</td><td><a href="https://arxiv.org/abs/2210.03629">arxiv.org/abs/2210.03629</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S6</td><td>T0 论文</td><td>Chameleon: Plug-and-Play Compositional Reasoning with Large Language Models (Lu et al., 2023)</td><td><a href="https://arxiv.org/abs/2304.09842">arxiv.org/abs/2304.09842</a></td><td><span class="pill">已核</span></td></tr>
     </tbody>
   </table>
 </section>
 
 <footer>
   本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
-  配套阅读:<a href="agent.html">agent.html</a> · <a href="llm-context.html">llm-context.html</a> · <a href="skill.html">skill.html</a>
+  配套阅读：<a href="agent.html">agent.html</a> · <a href="llm-context.html">llm-context.html</a> · <a href="skill.html">skill.html</a>
 </footer>
 
 </div>

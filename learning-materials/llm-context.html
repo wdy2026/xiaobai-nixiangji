@@ -2,75 +2,106 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>概念卡片 · 大模型的上下文 · xiaobai-nixiangji</title>
+<title>概念卡片 · 大模型的上下文窗 · xiaobai-nixiangji</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   :root{
-    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d;
+    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d; --bg-4:#0b1224;
     --text:#e2e8f0; --muted:#94a3b8;
-    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185;
-    --c-cyan-soft:rgba(34,211,238,.12);
-    --c-purple-soft:rgba(167,139,250,.12);
-    --c-amber-soft:rgba(251,191,36,.12);
-    --border:rgba(148,163,184,.18);
-    --radius:16px;
+    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185; --c-emerald:#34d399;
+    --c-cyan-soft:rgba(34,211,238,.12); --c-purple-soft:rgba(167,139,250,.12); --c-amber-soft:rgba(251,191,36,.12);
+    --border:rgba(148,163,184,.18); --radius:16px;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
-  .wrap{max-width:880px;margin:0 auto;padding:48px 24px 96px}
-  header{margin-bottom:36px}
-  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px}
-  h1{font-size:38px;line-height:1.2;margin:8px 0 12px;font-weight:700}
-  .subtitle{color:var(--muted);font-size:16px;margin:0}
-  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-  .chip{padding:4px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 24px 96px}
+  header{margin-bottom:40px}
+  .guide-mode{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px;margin-bottom:8px}
+  h1{font-size:42px;line-height:1.15;margin:8px 0 14px;font-weight:700}
+  .subtitle{color:var(--muted);font-size:18px;margin:0;max-width:720px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .chip{padding:5px 12px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
   section.card{
     background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
     border:1px solid var(--border);border-radius:var(--radius);
-    padding:24px 26px;margin:18px 0;position:relative;
+    padding:26px 28px;margin:20px 0;position:relative;
     box-shadow:0 1px 0 rgba(255,255,255,.02) inset,0 12px 30px rgba(0,0,0,.25);
   }
   section.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0}
   section.card.h-cyan::before{background:var(--c-cyan)}
   section.card.h-purple::before{background:var(--c-purple)}
   section.card.h-amber::before{background:var(--c-amber)}
-  section.card h2{margin:0 0 14px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card.h-emerald::before{background:var(--c-emerald)}
+  section.card h2{margin:0 0 18px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card h2 .num{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--muted);font-weight:400}
   section.card h2 .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:auto;border:1px solid var(--border);padding:2px 8px;border-radius:6px}
-  ul,ol{margin:8px 0 8px 20px;padding:0}
-  li{margin:6px 0}
-  code{background:rgba(255,255,255,.05);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.92em;color:#fde68a}
-  pre{background:#0b1224;border:1px solid var(--border);padding:14px;border-radius:10px;overflow:auto;font-family:"JetBrains Mono","Consolas",monospace;font-size:13px}
+  h3{color:#7dd3fc;margin:22px 0 10px;font-size:17px}
+  h4{color:#a78bfa;margin:18px 0 8px;font-size:15px}
+  ul,ol{margin:10px 0 10px 22px;padding:0}
+  li{margin:7px 0}
+  code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.9em;color:#fde68a}
+  pre{background:var(--bg-4);border:1px solid var(--border);padding:14px;border-radius:10px;overflow:auto;font-family:"JetBrains Mono","Consolas",monospace;font-size:13px}
   blockquote{
-    margin:14px 0;padding:10px 16px;border-left:3px solid var(--c-cyan);
-    background:rgba(34,211,238,.06);border-radius:0 10px 10px 0;color:#cbd5e1;
+    margin:16px 0;padding:12px 18px;border-left:3px solid var(--c-cyan);
+    background:rgba(34,211,238,.06);border-radius:0 12px 12px 0;color:#cbd5e1;
   }
   blockquote.amber{border-left-color:var(--c-amber);background:var(--c-amber-soft)}
   blockquote.purple{border-left-color:var(--c-purple);background:var(--c-purple-soft)}
-  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
-  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  .sup{font-size:.78em;color:#7dd3fc;vertical-align:super;margin-left:1px}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th,td{padding:11px 13px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
   th{color:var(--muted);font-weight:500;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
   a{color:#7dd3fc;text-decoration:none;border-bottom:1px dotted rgba(125,211,252,.4)}
   a:hover{border-bottom-style:solid}
-  .context-flow{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0;
-  }
-  .context-flow .blk{background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px 10px;font-size:13px;text-align:center;color:#cbd5e1}
-  .context-flow .blk b{display:block;color:var(--c-purple);font-size:13px;margin-bottom:4px}
-  .arrow{display:flex;justify-content:center;color:var(--c-cyan);font-size:20px;margin:-4px 0}
-  footer{margin-top:40px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
+  .diagram{background:var(--bg-4);border:1px solid var(--border);border-radius:14px;padding:20px;margin:16px 0;overflow:auto}
+  .diagram svg{width:100%;max-width:860px;height:auto;display:block;margin:0 auto}
+  .context3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+  .context3 .blk{background:var(--bg-3);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .context3 .blk b{display:block;color:var(--c-cyan);font-size:15px;margin-bottom:6px}
+  .context3 .blk p{margin:0;color:#cbd5e1;font-size:13px;line-height:1.55}
+  .strategies{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0}
+  .strategy{background:var(--bg-3);border:1px solid var(--border);border-radius:12px;padding:18px;transition:transform .15s,border-color .15s}
+  .strategy:hover{transform:translateY(-2px);border-color:rgba(167,139,250,.4)}
+  .strategy .label{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--c-purple);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+  .strategy h4{margin:0 0 8px;color:var(--text);font-size:16px}
+  .strategy p{margin:0 0 8px;color:#cbd5e1;font-size:13px;line-height:1.55}
+  .strategy .fit{margin-top:10px;font-size:12px;color:var(--muted)}
+  .quiz-option{display:block;width:100%;text-align:left;background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin:8px 0;color:var(--text);cursor:pointer;transition:all .15s}
+  .quiz-option:hover{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.4)}
+  .quiz-option.correct{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.5)}
+  .quiz-option.wrong{background:rgba(251,81,105,.15);border-color:rgba(251,81,105,.5)}
+  .quiz-option.selected{background:rgba(167,139,250,.2);border-color:var(--c-purple)}
+  .quiz-feedback{display:none;margin:10px 0;padding:12px 16px;border-radius:10px;font-size:13px}
+  .quiz-feedback.show{display:block}
+  .context-actions{display:flex;gap:10px;margin-top:14px}
+  .context-actions button{background:var(--bg-3);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px}
+  .context-actions button:hover{background:rgba(167,139,250,.15)}
+  footer{margin-top:48px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
   .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;background:rgba(34,197,94,.15);color:#86efac;margin-left:6px}
   .pill.warn{background:rgba(251,191,36,.15);color:#fcd34d}
+  @media(max-width:720px){
+    .context3{grid-template-columns:1fr}
+    .strategies{grid-template-columns:1fr}
+    h1{font-size:32px}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
+  <div class="guide-mode">Guide Mode · Source-Traced Concept Guide</div>
   <div class="crumb">xiaobai-nixiangji · learning-materials · llm-context.html</div>
-  <h1>大模型的上下文 (Context)</h1>
-  <p class="subtitle">一份由 <code>learn-concept</code> Skill 生成的结构化学习卡片</p>
+  <h1>AI Agent 的上下文窗</h1>
+  <p class="subtitle">它不是一个"越大越好"的盒子，而是 Agent 每一步决策能看见的<b>有限工作台</b>。</p>
   <div class="meta">
-    <span class="chip">概念域 · AI / LLM</span>
+    <span class="chip">对象 · 已会使用 LLM 或 Agent 的学习者</span>
+    <span class="chip">目标 · 会拆分 context window、LLM context 与 runtime context</span>
+    <span class="chip">重点 · 多步 Agent 如何防止上下文失焦</span>
+  </div>
+  <div class="meta" style="margin-top:10px">
+    <span class="chip">概念域 · AI / LLM / Context Engineering</span>
     <span class="chip">生成时间 · 2026-09-09</span>
     <span class="chip">作者核查 · 已完成</span>
     <span class="chip">先验假设 · 入门</span>
@@ -78,175 +109,303 @@
 </header>
 
 <section class="card h-cyan">
-  <h2>1. 学习目标 <span class="tag">OBJECTIVE</span></h2>
+  <h2><span class="num">01 ·</span> 学习目标 <span class="tag">OBJECTIVE</span></h2>
   <ul>
-    <li><b>描述</b> "上下文"在 LLM 中的具体含义,区分它与日常语境中"上下文"的差异。</li>
-    <li><b>解释</b> 上下文窗口(Context Window)、位置偏差(Lost-in-the-Middle)和稀疏/线性注意力机制如何共同决定模型的长文本处理能力。</li>
-    <li><b>区分</b> 上下文、记忆(Memory)、微调(Fine-tune)和 RAG 在长文本任务中的分工。</li>
+    <li><b>描述</b> "上下文"在 LLM 中的具体含义，区分它与日常语境中"上下文"的差异。</li>
+    <li><b>解释</b> 上下文窗口（Context Window）、位置偏差（Lost-in-the-Middle）和稀疏/线性注意力机制如何共同决定模型的长文本处理能力。</li>
+    <li><b>区分</b> 上下文、记忆（Memory）、微调（Fine-tune）和 RAG 在长文本任务中的分工。</li>
+    <li><b>应用</b> 四种上下文管理策略（压缩、即时检索、结构化外置笔记、隔离子任务）来设计 Agent 的输入。</li>
   </ul>
 </section>
 
 <section class="card h-purple">
-  <h2>2. 核心问题 <span class="tag">CORE QUESTION</span></h2>
+  <h2><span class="num">02 ·</span> 核心问题 <span class="tag">CORE QUESTION</span></h2>
   <ol>
-    <li>模型"看到的"和"记住的"是同一回事吗?</li>
-    <li>Transformer 的自注意力为什么让上下文窗口成为计算瓶颈?</li>
-    <li>为什么上下文窗口不是越大越好?</li>
-    <li>为什么把关键信息放在上下文开头或末尾,模型更容易记住?</li>
-    <li>上下文满了之后会发生什么?</li>
+    <li>模型"看到的"和"记住的"是同一回事吗？</li>
+    <li>Transformer 的自注意力为什么让上下文窗口成为计算瓶颈？</li>
+    <li>为什么上下文窗口不是越大越好？</li>
+    <li>为什么把关键信息放在上下文开头或末尾，模型更容易记住？</li>
+    <li>上下文满了之后，Agent 该怎么做才能不"失忆"？</li>
   </ol>
 </section>
 
 <section class="card h-cyan">
-  <h2>3. 结构化解释 <span class="tag">STRUCTURED</span></h2>
+  <h2><span class="num">03 ·</span> 先定义它 <span class="tag">DEFINITION</span></h2>
 
-  <h3 style="color:#7dd3fc;margin-top:0">一句话定义</h3>
+  <h3>两种权威定义</h3>
   <blockquote>
-    大模型的"上下文"是指<b>当前推理请求中,模型能"看见"并用于生成下一个 token 的全部输入序列</b>,包括系统提示、历史对话、检索片段和工具返回。它不等同于"记忆",也不等同于"知识"。<sup>[1][3]</sup>
+    <b>工程定义（LangGraph）</b>：context window 是可传给 LLM 的最大 token 数，是模型单次前向传播时能处理的输入长度上限。<span class="sup">[S1]</span><br><br>
+    这一定义强调：<b>容量上限</b>。它是一个硬约束，超出就需要截断、压缩或分块。
   </blockquote>
 
-  <h3 style="color:#7dd3fc">一个请求的上下文长什么样</h3>
-  <div class="context-flow">
-    <div class="blk"><b>System</b>系统提示 / 角色设定</div>
-    <div class="blk"><b>Tools</b>工具描述 + Schema</div>
-    <div class="blk"><b>History</b>历史消息(可能含摘要)</div>
-    <div class="blk"><b>User + RAG</b>当前问题 + 检索片段</div>
-  </div>
-  <div class="arrow">↓</div>
-  <div class="context-flow" style="grid-template-columns:1fr">
-    <div class="blk"><b>Context Window</b> 所有 token 拼接后送进模型,总长度受窗口限制(单位是 token,不是字符)。</div>
-  </div>
+  <blockquote class="purple">
+    <b>采样定义（Anthropic）</b>：context 是模型采样时实际包含的一组 token，即"本轮真正放进去的内容"，而不是所有已存储的资料。<span class="sup">[S2]</span><br><br>
+    这一定义强调：<b>内容选择</b>。窗口再大，如果里面装满噪声，模型也抓不住重点。对 Agent 而言，工程问题不只在"有多大"，更在"本轮该让模型看什么"。
+  </blockquote>
 
-  <h3 style="color:#7dd3fc">核心机制:从 Attention 到上下文窗口</h3>
-  <ol>
-    <li><b>自注意力的二次复杂度</b>:Transformer 中每个 token 都要和序列中所有其他 token 计算注意力,序列长度为 <code>n</code> 时计算量和显存都是 <code>O(n²)</code>。<sup>[1]</sup> 这直接限制了上下文窗口的大小。</li>
-    <li><b>长上下文模型有两条路线</b>:
-      <ul>
-        <li><b>路线 A:稀疏/局部注意力</b>。Longformer 用滑动窗口 + 全局注意力,把复杂度降到 <code>O(n)</code>。<sup>[2]</sup></li>
-        <li><b>路线 B:序列并行 + 分块</b>。Ring Attention 把长序列切到多个设备上计算,让窗口可以扩展到百万 token。<sup>[4]</sup></li>
-      </ul>
-    </li>
-    <li><b>Infini-attention 等压缩记忆</b>:在固定内存里压缩历史上下文,使模型能处理"无限"长输入,但会引入信息损失。<sup>[5]</sup></li>
-  </ol>
-
-  <h3 style="color:#7dd3fc">位置偏差:为什么开头和末尾最有效</h3>
-  <p>Liu 等人 2023 年的论文"Lost in the Middle"对多个长上下文模型做了系统评测,发现:当关键信息放在文档<b>开头或末尾</b>时召回率最高;放在中间时,即使模型标称支持长上下文,性能也会显著下降。<sup>[3]</sup> 这不是窗口大小能解决的问题,而是<b>注意力分布</b>和<b>训练数据偏差</b>导致的结构性问题。</p>
-
-  <h3 style="color:#7dd3fc">上下文与相邻概念的分工</h3>
-  <p>上下文是<b>当前推理的输入</b>;记忆(Memory)是<b>跨会话保存并检索</b>的外部信息;RAG 是<b>把外部文档按需切片送入上下文</b>的技术;微调(Fine-tune)则是把知识固化到模型权重里。<sup>[6][7]</sup></p>
+  <h3>一句话个人解释</h3>
+  <p>大模型的"上下文"是指<b>当前推理请求中，模型能"看见"并用于生成下一个 token 的全部输入序列</b>，包括系统提示、历史对话、检索片段和工具返回。它不等同于"记忆"，也不等同于"知识"，而是一个需要被主动管理的<b>有限工作台</b>。</p>
 </section>
 
 <section class="card h-purple">
-  <h2>4. 应用场景 <span class="tag">CASE</span></h2>
+  <h2><span class="num">04 ·</span> 结构化解释 <span class="tag">MECHANISM</span></h2>
+
+  <h3>01 · 窗口是容量上限；上下文是这一刻真正放进去的内容</h3>
+  <p>对 Agent 而言，一次推理的"可见世界"只包含本轮被组装进来的 token。我们可以把它想象成一个预算条：</p>
+
+  <div class="diagram">
+<svg viewBox="0 0 860 320" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+  <text x="40" y="30" fill="#94a3b8" font-size="12" font-weight="600" letter-spacing="1">ONE INFERENCE · FINITE ATTENTION BUDGET</text>
+  <text x="820" y="30" fill="#94a3b8" font-size="11" text-anchor="end">不同模型 / API 的输入与输出计数规则不同，应查具体规格。</text>
+
+  <text x="40" y="65" fill="#e2e8f0" font-size="14" font-weight="600">可用上下文窗</text>
+  <text x="820" y="65" fill="#94a3b8" font-size="12" text-anchor="end">容量是约束，不是内容清单</text>
+
+  <!-- budget bar -->
+  <rect x="40" y="80" width="780" height="70" rx="10" fill="#0b1224" stroke="rgba(148,163,184,.3)" stroke-width="1"/>
+  <rect x="42" y="82" width="180" height="66" rx="8" fill="#0f4c5c"/>
+  <text x="132" y="115" fill="#22d3ee" font-size="13" font-weight="600" text-anchor="middle">稳定规则</text>
+  <text x="132" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">系统提示 · 工具定义</text>
+
+  <rect x="224" y="82" width="160" height="66" rx="8" fill="#7c3c21"/>
+  <text x="304" y="115" fill="#fbbf24" font-size="13" font-weight="600" text-anchor="middle">当前任务</text>
+  <text x="304" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">用户目标 · 临时约束</text>
+
+  <rect x="388" y="82" width="200" height="66" rx="8" fill="#374151"/>
+  <text x="488" y="115" fill="#a78bfa" font-size="13" font-weight="600" text-anchor="middle">动态证据</text>
+  <text x="488" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">推理历史 · 检索 · 工具回传</text>
+
+  <rect x="592" y="82" width="226" height="66" rx="8" fill="#1e3a5f"/>
+  <text x="705" y="115" fill="#34d399" font-size="13" font-weight="600" text-anchor="middle">输出余量</text>
+  <text x="705" y="135" fill="#94a3b8" font-size="10" text-anchor="middle">推理 / 工具调用 / 回复</text>
+
+  <!-- scale -->
+  <line x1="40" y1="165" x2="820" y2="165" stroke="#334155" stroke-width="1"/>
+  <text x="40" y="185" fill="#94a3b8" font-size="11">较少 token ≠ 自动更好</text>
+  <text x="430" y="185" fill="#e2e8f0" font-size="11" text-anchor="middle">Agent 单步上下文预算</text>
+  <text x="820" y="185" fill="#94a3b8" font-size="11" text-anchor="end">最小的高信号集合才是目标</text>
+
+  <text x="430" y="220" fill="#94a3b8" font-size="12" text-anchor="middle">本轮模型调用的"可见世界"：只包含本轮被组装进来的 token，而不等于所有已存资料。</text>
+
+  <!-- three columns -->
+  <rect x="40" y="245" width="240" height="60" rx="8" fill="#111c33" stroke="rgba(148,163,184,.2)"/>
+  <text x="160" y="268" fill="#e2e8f0" font-size="12" font-weight="600" text-anchor="middle">容量</text>
+  <text x="160" y="290" fill="#94a3b8" font-size="11" text-anchor="middle">硬约束。超出会失败或需要</text>
+  <text x="160" y="304" fill="#94a3b8" font-size="11" text-anchor="middle">截断、压缩、协商。</text>
+
+  <rect x="310" y="245" width="240" height="60" rx="8" fill="#111c33" stroke="rgba(148,163,184,.2)"/>
+  <text x="430" y="268" fill="#e2e8f0" font-size="12" font-weight="600" text-anchor="middle">选择</text>
+  <text x="430" y="290" fill="#94a3b8" font-size="11" text-anchor="middle">工程策略。把相关信息和无关</text>
+  <text x="430" y="304" fill="#94a3b8" font-size="11" text-anchor="middle">信息一起塞进来，模型也会失焦。</text>
+
+  <rect x="580" y="245" width="240" height="60" rx="8" fill="#111c33" stroke="rgba(148,163,184,.2)"/>
+  <text x="700" y="268" fill="#e2e8f0" font-size="12" font-weight="600" text-anchor="middle">余量</text>
+  <text x="700" y="290" fill="#94a3b8" font-size="11" text-anchor="middle">实践约束。成为模型后续回复</text>
+  <text x="700" y="304" fill="#94a3b8" font-size="11" text-anchor="middle">或工具调用预留空间。</text>
+</svg>
+  </div>
+
+  <h3>02 · 不要把三个 CONTEXT 混为一谈</h3>
+  <div class="context3">
+    <div class="blk">
+      <b>LLM Context</b>
+      <p>模型输入里实际包含的 token 序列。它是<b>采样时可见</b>的上下文，决定了这一轮模型能基于什么生成答案。</p>
+    </div>
+    <div class="blk">
+      <b>Runtime Context</b>
+      <p>程序运行时的状态变量、数据库连接、用户 ID 等。它们<b>不直接进 LLM</b>，而是由代码用来决定调用哪些工具、取什么数据。</p>
+    </div>
+    <div class="blk">
+      <b>Context Window</b>
+      <p>模型或 API 声明的<b>最大 token 容量</b>。它是上限，不是内容清单。不同模型的计数规则可能不同。</p>
+    </div>
+  </div>
+  <p>三者互补，不是互相替代。Runtime context 负责"系统怎么跑"，LLM context 负责"模型看到什么"，context window 负责"最多能放多少"。<span class="sup">[S1][S2]</span></p>
+
+  <h3>03 · 从 Attention 到上下文窗口</h3>
+  <ol>
+    <li><b>自注意力的二次复杂度</b>：Transformer 中每个 token 都要和序列中所有其他 token 计算注意力，序列长度为 <code>n</code> 时计算量和显存都是 <code>O(n²)</code>。<span class="sup">[S3]</span> 这直接限制了上下文窗口的大小。</li>
+    <li><b>长上下文模型有两条路线</b>：
+      <ul>
+        <li><b>路线 A：稀疏/局部注意力</b>。Longformer 用滑动窗口 + 全局注意力，把复杂度降到 <code>O(n)</code>。<span class="sup">[S4]</span></li>
+        <li><b>路线 B：序列并行 + 分块</b>。Ring Attention 把长序列切到多个设备上计算，让窗口可以扩展到百万 token。<span class="sup">[S5]</span></li>
+      </ul>
+    </li>
+    <li><b>Infini-attention 等压缩记忆</b>：在固定内存里压缩历史上下文，使模型能处理"无限"长输入，但会引入信息损失。<span class="sup">[S6]</span></li>
+  </ol>
+
+  <h3>04 · 位置偏差：为什么开头和末尾最有效</h3>
+  <p>Liu 等人 2023 年的论文"Lost in the Middle"对多个长上下文模型做了系统评测，发现：当关键信息放在文档<b>开头或末尾</b>时召回率最高；放在中间时，即使模型标称支持长上下文，性能也会显著下降。<span class="sup">[S7]</span> 这不是窗口大小能解决的问题，而是<b>注意力分布</b>和<b>训练数据偏差</b>导致的结构性问题。</p>
+
+  <h3>05 · 上下文与相邻概念的分工</h3>
+  <p>上下文是<b>当前推理的输入</b>；记忆（Memory）是<b>跨会话保存并检索</b>的外部信息；RAG 是<b>把外部文档按需切片送入上下文</b>的技术；微调（Fine-tune）则是把知识固化到模型权重里。<span class="sup">[S2][S8]</span></p>
+</section>
+
+<section class="card h-purple">
+  <h2><span class="num">05 ·</span> 应用场景 <span class="tag">CASE</span></h2>
   <blockquote>
-    <b>场景</b>:法律助理需要在一份 200 页的合同里找出"所有关于违约责任的条款,并判断是否包含仲裁约定"。<br><br>
-    <b>怎么用上下文</b>:
+    <b>场景</b>：法律助理需要在一份 200 页的合同里找出"所有关于违约责任的条款，并判断是否包含仲裁约定"。<br><br>
+    <b>怎么用上下文</b>：
     <ol>
-      <li>如果模型窗口只有 4K token,无法一次性塞进整份合同 → 需要先用 RAG 或分段检索。</li>
-      <li>把合同拆成条款级 chunk,用嵌入模型建索引;对查询"违约责任 + 仲裁"检索最相关的 5 个 chunk。</li>
+      <li>如果模型窗口只有 4K token，无法一次性塞进整份合同 → 需要先用 RAG 或分段检索。</li>
+      <li>把合同拆成条款级 chunk，用嵌入模型建索引；对查询"违约责任 + 仲裁"检索最相关的 5 个 chunk。</li>
       <li>把"系统提示 + 检索到的 chunk + 用户问题"拼成上下文送给模型。</li>
-      <li>模型基于上下文中的证据回答,并标注引用来源。</li>
+      <li>模型基于上下文中的证据回答，并标注引用来源。</li>
     </ol>
-    <b>边界</b>:如果检索遗漏了关键条款,再大的窗口也救不了答案。同时,如果 chunk 切分破坏了跨段语义,模型可能看不出上下文关联。<br>
-    <b>来源</b>:类似的法律/金融长文本分析任务在 Lost in the Middle 研究<sup>[3]</sup>和 Anthropic 100K 上下文应用案例<sup>[6]</sup>中均有讨论。
+    <b>边界</b>：如果检索遗漏了关键条款，再大的窗口也救不了答案。同时，如果 chunk 切分破坏了跨段语义，模型可能看不出上下文关联。此外，由于 Lost-in-the-Middle 效应，即使 chunk 被送进去，若关键证据位于长输入中部，模型也可能忽略。<span class="sup">[S7]</span><br>
+    <b>来源</b>：类似的法律/金融长文本分析任务在 Lost in the Middle 研究<span class="sup">[S7]</span>和 Anthropic 100K 上下文应用案例<span class="sup">[S8]</span>中均有讨论。
+  </blockquote>
+</section>
+
+<section class="card h-emerald">
+  <h2><span class="num">06 ·</span> 策略卡片 / 最佳实践 <span class="tag">STRATEGIES</span></h2>
+  <p style="color:#cbd5e1;margin-top:-8px">上下文管理的四条核心策略，分别对应"减少输入""按需加载""外部持久化""任务拆分"四种思路。</p>
+  <div class="strategies">
+    <div class="strategy">
+      <div class="label">01 · COMPACTION</div>
+      <h4>压缩</h4>
+      <p>窗口接近上限时，总结已发生的工作并重新开始下一段上下文。重点保留架构决定、未解错误、修改状态，而非逐字浓缩一切。</p>
+      <div class="fit">适合：连续长对话、同一任务的持续推进 · 来源 <span class="sup">[S2][S9]</span></div>
+    </div>
+    <div class="strategy">
+      <div class="label">02 · JUST IN TIME</div>
+      <h4>即时检索</h4>
+      <p>保留文件路径、查询条件、链接或索引；需要时再用工具打开小片段。这样模型不会预先吞下整份语料。</p>
+      <div class="fit">适合：大代码库、文档库、日志与数据库 · 来源 <span class="sup">[S2]</span></div>
+    </div>
+    <div class="strategy">
+      <div class="label">03 · STRUCTURED NOTES</div>
+      <h4>结构化外置笔记</h4>
+      <p>把稳定的进度、关键依赖、待验证假设写出上下文窗。后续按需读回，避免每轮把完整过程携带在消息里。</p>
+      <div class="fit">适合：有里程碑的长期项目 · 来源 <span class="sup">[S2][S9]</span></div>
+    </div>
+    <div class="strategy">
+      <div class="label">04 · CLEAN SUBTASKS</div>
+      <h4>隔离的子任务</h4>
+      <p>让子 Agent 在干净、聚焦的窗口里深入检索或实验，只返回浓缩结论。主 Agent 保持全局目标和决策权。</p>
+      <div class="fit">适合：可分解的研究、排查与并行调查 · 来源 <span class="sup">[S2]</span></div>
+    </div>
+  </div>
+  <blockquote class="amber">
+    <b>为什么"全塞进去"不稳</b>：长上下文并非只有超限这一种失败。研究显示，相关信息的位置会显著影响检索表现，位于长输入中部时可能更难被有效使用。<span class="sup">[S7]</span>
   </blockquote>
 </section>
 
 <section class="card h-amber">
-  <h2>5. 概念辨析 & 使用边界 <span class="tag">BOUNDARY</span></h2>
+  <h2><span class="num">07 ·</span> 概念辨析 & 使用边界 <span class="tag">BOUNDARY</span></h2>
   <table>
     <thead><tr><th>概念</th><th>持久性</th><th>更新成本</th><th>适用场景</th></tr></thead>
     <tbody>
       <tr><td><b>上下文</b></td><td>仅本次请求</td><td>每次请求重算</td><td>当前对话、一次性长文档</td></tr>
-      <tr><td><b>记忆(Memory)</b></td><td>跨会话</td><td>中等(写向量库)</td><td>长期用户画像、跨任务经验</td></tr>
-      <tr><td><b>微调(Fine-tune)</b></td><td>永久(进权重)</td><td>高(重新训练)</td><td>领域专用语言、固定知识</td></tr>
-      <tr><td><b>RAG</b></td><td>由检索条件决定</td><td>低(只需更新文档库)</td><td>动态知识库、可溯源问答</td></tr>
+      <tr><td><b>记忆（Memory）</b></td><td>跨会话</td><td>中等（写向量库）</td><td>长期用户画像、跨任务经验</td></tr>
+      <tr><td><b>微调（Fine-tune）</b></td><td>永久（进权重）</td><td>高（重新训练）</td><td>领域专用语言、固定知识</td></tr>
+      <tr><td><b>RAG</b></td><td>由检索条件决定</td><td>低（只需更新文档库）</td><td>动态知识库、可溯源问答</td></tr>
     </tbody>
   </table>
   <blockquote class="amber">
-    <b>四条硬边界</b>:
+    <b>四条硬边界</b>：
     <ol>
-      <li><b>不要把"敏感信息"放进第三方 API 的上下文</b>:它会随请求离开本地,日志可能被留档。</li>
-      <li><b>不要假定"窗口大 = 记得住"</b>:Lost in the Middle 是结构性问题,与窗口大小无关。<sup>[3]</sup></li>
-      <li><b>不要把上下文塞满无关的旧消息</b>:每多一个 token 都是计算和费用,还会冲淡当前指令。</li>
-      <li><b>不要把记忆当成上下文</b>:长期记忆需要先检索再写入上下文,否则模型本轮根本看不到。<sup>[7]</sup></li>
+      <li><b>不要把"敏感信息"放进第三方 API 的上下文</b>：它会随请求离开本地，日志可能被留档。</li>
+      <li><b>不要假定"窗口大 = 记得住"</b>：Lost in the Middle 是结构性问题，与窗口大小无关。<span class="sup">[S7]</span></li>
+      <li><b>不要把上下文塞满无关的旧消息</b>：每多一个 token 都是计算和费用，还会冲淡当前指令。</li>
+      <li><b>不要把记忆当成上下文</b>：长期记忆需要先检索再写入上下文，否则模型本轮根本看不到。<span class="sup">[S8]</span></li>
     </ol>
   </blockquote>
 </section>
 
+<section class="card h-purple">
+  <h2><span class="num">08 ·</span> 交互练习 <span class="tag">PRACTICE</span></h2>
+  <p><b>场景</b>：Agent 要修复"支付 API 返回 401"。目标不是收集最多资料，而是组装足以做出<b>下一步正确行动</b>的最小高信号集合。</p>
+  <p><b>问题</b>：选择第一轮最该带入的四项。</p>
+  <button class="quiz-option" data-id="A" onclick="toggleContext(this)">A 用户的当前目标、环境和允许的修改范围</button>
+  <button class="quiz-option" data-id="B" onclick="toggleContext(this)">B 过去 30 天的全部访问日志（原文）</button>
+  <button class="quiz-option" data-id="C" onclick="toggleContext(this)">C 最新 401 响应、请求 ID、时间点和最短错误链</button>
+  <button class="quiz-option" data-id="D" onclick="toggleContext(this)">D 被报错 endpoint 的认证配置与调用代码片段</button>
+  <button class="quiz-option" data-id="E" onclick="toggleContext(this)">E 上个月关于 UI 配色的整段讨论</button>
+  <button class="quiz-option" data-id="F" onclick="toggleContext(this)">F 最近一次认证相关变更的精简差异与提交说明</button>
+  <div class="context-actions">
+    <button onclick="clearContext()">清空</button>
+    <button onclick="evaluateContext()">评估工作集</button>
+  </div>
+  <div id="context-feedback" class="quiz-feedback"></div>
+</section>
+
 <section class="card h-cyan">
-  <h2>6. 自测题 <span class="tag">QUIZ</span></h2>
+  <h2><span class="num">09 ·</span> 自测题 <span class="tag">QUIZ</span></h2>
   <ol>
     <li>
-      <b>(定义)</b> 用一句话区分"上下文"和"记忆",并指出它们分别存在哪里。
-      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>上下文存在本次请求的 prompt 里;记忆存在外部存储,需要时通过检索注入上下文。</details>
+      <b>（定义）</b> 用一句话区分"上下文"和"记忆"，并指出它们分别存在哪里。
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>上下文存在本次请求的 prompt 里；记忆存在外部存储，需要时通过检索注入上下文。</details>
     </li>
     <li>
-      <b>(机制)</b> 解释为什么 Transformer 自注意力会限制上下文窗口,以及 Longformer 如何缓解这个问题。
-      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>自注意力是 O(n²);Longformer 用稀疏注意力把复杂度降到 O(n),牺牲全局交互换取长度。<sup>[1][2]</sup></details>
+      <b>（机制）</b> 解释为什么 Transformer 自注意力会限制上下文窗口，以及 Longformer 如何缓解这个问题。
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>自注意力是 O(n²)；Longformer 用稀疏注意力把复杂度降到 O(n)，牺牲全局交互换取长度。<span class="sup">[S3][S4]</span></details>
     </li>
     <li>
-      <b>(边界)</b> 假设你有一个 200K 窗口的模型,要把三本 PDF 当知识库,你会怎么设计?为什么不直接整本灌进去?
+      <b>（边界）</b> 假设你有一个 200K 窗口的模型，要把三本 PDF 当知识库，你会怎么设计？为什么不直接整本灌进去？
       <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>用 RAG 检索片段再拼上下文。直接灌 → 中间遗忘 + 成本爆炸 + 难追溯引用。</details>
+    </li>
+    <li>
+      <b>（策略）</b> "压缩"和"即时检索"有什么区别？分别举一个适用场景。
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>压缩是总结已发生的历史；即时检索是保留索引/路径，需要时再取。前者适合长对话，后者适合大代码库/文档库。</details>
     </li>
   </ol>
 </section>
 
 <section class="card h-purple">
-  <h2>7. 参考来源 <span class="tag">SOURCES</span></h2>
+  <h2><span class="num">10 ·</span> 参考来源 <span class="tag">SOURCES</span></h2>
   <table>
-    <thead><tr><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
+    <thead><tr><th>编号</th><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
     <tbody>
-      <tr>
-        <td>T0 论文</td>
-        <td>Attention Is All You Need (Vaswani et al., NeurIPS 2017)</td>
-        <td><a href="https://arxiv.org/abs/1706.03762">arxiv.org/abs/1706.03762</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>Longformer: The Long-Document Transformer (Beltagy et al., 2020)</td>
-        <td><a href="https://arxiv.org/abs/2004.05150">arxiv.org/abs/2004.05150</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>Lost in the Middle: How Language Models Use Long Contexts (Liu et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2307.03172">arxiv.org/abs/2307.03172</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>Ring Attention with Blockwise Transformers for Near-Infinite Context (Liu et al., 2024)</td>
-        <td><a href="https://arxiv.org/abs/2310.01889">arxiv.org/abs/2310.01889</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>Leave No Context Behind: Efficient Infinite Context Transformers with Infini-attention (Munkhdalai et al., 2024)</td>
-        <td><a href="https://arxiv.org/abs/2404.07143">arxiv.org/abs/2404.07143</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T1 厂商文章</td>
-        <td>100K Context Windows — Anthropic</td>
-        <td><a href="https://www.anthropic.com/news/100k-context-windows">anthropic.com/news/100k-context-windows</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T1 厂商文档</td>
-        <td>Prompt engineering overview — Anthropic</td>
-        <td><a href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">docs.claude.com/.../prompt-engineering/overview</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
+      <tr><td>S1</td><td>T1 厂商文档</td><td>LangGraph Context Concept</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/agentic_concepts/">langchain-ai.github.io/langgraph/concepts/agentic_concepts</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S2</td><td>T1 厂商文档</td><td>Prompt engineering overview — Anthropic</td><td><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview">docs.anthropic.com/.../prompt-engineering/overview</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S3</td><td>T0 论文</td><td>Attention Is All You Need (Vaswani et al., NeurIPS 2017)</td><td><a href="https://arxiv.org/abs/1706.03762">arxiv.org/abs/1706.03762</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S4</td><td>T0 论文</td><td>Longformer: The Long-Document Transformer (Beltagy et al., 2020)</td><td><a href="https://arxiv.org/abs/2004.05150">arxiv.org/abs/2004.05150</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S5</td><td>T0 论文</td><td>Ring Attention with Blockwise Transformers for Near-Infinite Context (Liu et al., 2024)</td><td><a href="https://arxiv.org/abs/2310.01889">arxiv.org/abs/2310.01889</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S6</td><td>T0 论文</td><td>Leave No Context Behind: Efficient Infinite Context Transformers with Infini-attention (Munkhdalai et al., 2024)</td><td><a href="https://arxiv.org/abs/2404.07143">arxiv.org/abs/2404.07143</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S7</td><td>T0 论文</td><td>Lost in the Middle: How Language Models Use Long Contexts (Liu et al., 2023)</td><td><a href="https://arxiv.org/abs/2307.03172">arxiv.org/abs/2307.03172</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S8</td><td>T1 厂商文章</td><td>100K Context Windows — Anthropic</td><td><a href="https://www.anthropic.com/news/100k-context-windows">anthropic.com/news/100k-context-windows</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S9</td><td>T1 厂商文章</td><td>Building effective agents — Anthropic</td><td><a href="https://www.anthropic.com/research/building-effective-agents">anthropic.com/research/building-effective-agents</a></td><td><span class="pill">已核</span></td></tr>
     </tbody>
   </table>
 </section>
 
 <footer>
   本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
-  所有引用链接截至 2026-09-09 可访问;若链接变更请以 arXiv / 官方归档为准。
+  所有引用链接截至 2026-09-09 可访问；若链接变更请以 arXiv / 官方归档为准。
 </footer>
+
+<script>
+const correctSet = new Set(['A','C','D','F']);
+function toggleContext(btn){
+  btn.classList.toggle('selected');
+  document.getElementById('context-feedback').className='quiz-feedback';
+}
+function clearContext(){
+  document.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('selected','correct','wrong'));
+  document.getElementById('context-feedback').className='quiz-feedback';
+}
+function evaluateContext(){
+  const selected = new Set(Array.from(document.querySelectorAll('.quiz-option.selected')).map(o=>o.dataset.id));
+  document.querySelectorAll('.quiz-option').forEach(o=>{
+    o.classList.remove('correct','wrong');
+    const id = o.dataset.id;
+    if(selected.has(id)){
+      if(correctSet.has(id)) o.classList.add('correct');
+      else o.classList.add('wrong');
+    }
+  });
+  const fb = document.getElementById('context-feedback');
+  const correct = Array.from(selected).filter(id=>correctSet.has(id));
+  const wrong = Array.from(selected).filter(id=>!correctSet.has(id));
+  if(correct.length===4 && wrong.length===0){
+    fb.innerHTML = '<b style="color:#86efac">完全正确。</b>第一轮要优先拿到问题本身（A）、直接证据（C）、相关代码（D）和最近的因果线索（F）。全量日志（B）应保留为外部引用，UI 配色讨论（E）与故障无关。';
+  }else{
+    fb.innerHTML = '<b style="color:#fbbf24">部分正确。</b>建议组合是 <b>A、C、D、F</b>。A 定义目标与范围；C 是最短失败证据；D 是相关代码；F 是最近变更。B 量太大应外部索引；E 与 401 故障无直接因果关系。';
+  }
+  fb.className = 'quiz-feedback show';
+}
+</script>
 
 </div>
 </body>

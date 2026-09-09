@@ -6,70 +6,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   :root{
-    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d;
+    --bg:#0f172a; --bg-2:#111c33; --bg-3:#16223d; --bg-4:#0b1224;
     --text:#e2e8f0; --muted:#94a3b8;
-    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185;
-    --c-cyan-soft:rgba(34,211,238,.12);
-    --c-purple-soft:rgba(167,139,250,.12);
-    --c-amber-soft:rgba(251,191,36,.12);
-    --border:rgba(148,163,184,.18);
-    --radius:16px;
+    --c-cyan:#22d3ee; --c-purple:#a78bfa; --c-amber:#fbbf24; --c-rose:#fb7185; --c-emerald:#34d399;
+    --c-cyan-soft:rgba(34,211,238,.12); --c-purple-soft:rgba(167,139,250,.12); --c-amber-soft:rgba(251,191,36,.12);
+    --border:rgba(148,163,184,.18); --radius:16px;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
-  .wrap{max-width:880px;margin:0 auto;padding:48px 24px 96px}
-  header{margin-bottom:36px}
-  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px}
-  h1{font-size:38px;line-height:1.2;margin:8px 0 12px;font-weight:700}
-  .subtitle{color:var(--muted);font-size:16px;margin:0}
-  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
-  .chip{padding:4px 10px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 24px 96px}
+  header{margin-bottom:40px}
+  .guide-mode{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+  .crumb{font-family:"JetBrains Mono","Consolas",monospace;color:var(--muted);font-size:13px;letter-spacing:.5px;margin-bottom:8px}
+  h1{font-size:42px;line-height:1.15;margin:8px 0 14px;font-weight:700}
+  .subtitle{color:var(--muted);font-size:18px;margin:0;max-width:720px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .chip{padding:5px 12px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted)}
   section.card{
     background:linear-gradient(180deg,var(--bg-2),var(--bg-3));
     border:1px solid var(--border);border-radius:var(--radius);
-    padding:24px 26px;margin:18px 0;position:relative;
+    padding:26px 28px;margin:20px 0;position:relative;
     box-shadow:0 1px 0 rgba(255,255,255,.02) inset,0 12px 30px rgba(0,0,0,.25);
   }
   section.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0}
   section.card.h-cyan::before{background:var(--c-cyan)}
   section.card.h-purple::before{background:var(--c-purple)}
   section.card.h-amber::before{background:var(--c-amber)}
-  section.card h2{margin:0 0 14px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card.h-emerald::before{background:var(--c-emerald)}
+  section.card h2{margin:0 0 18px;font-size:20px;font-weight:600;display:flex;align-items:center;gap:10px}
+  section.card h2 .num{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--muted);font-weight:400}
   section.card h2 .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);font-weight:400;margin-left:auto;border:1px solid var(--border);padding:2px 8px;border-radius:6px}
-  ul,ol{margin:8px 0 8px 20px;padding:0}
-  li{margin:6px 0}
-  code{background:rgba(255,255,255,.05);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.92em;color:#fde68a}
-  pre{background:#0b1224;border:1px solid var(--border);padding:14px;border-radius:10px;overflow:auto;font-family:"JetBrains Mono","Consolas",monospace;font-size:13px}
+  h3{color:#7dd3fc;margin:22px 0 10px;font-size:17px}
+  h4{color:#a78bfa;margin:18px 0 8px;font-size:15px}
+  ul,ol{margin:10px 0 10px 22px;padding:0}
+  li{margin:7px 0}
+  code{background:rgba(255,255,255,.06);padding:2px 6px;border-radius:5px;font-family:"JetBrains Mono","Consolas",monospace;font-size:.9em;color:#fde68a}
+  pre{background:var(--bg-4);border:1px solid var(--border);padding:14px;border-radius:10px;overflow:auto;font-family:"JetBrains Mono","Consolas",monospace;font-size:13px}
   blockquote{
-    margin:14px 0;padding:10px 16px;border-left:3px solid var(--c-cyan);
-    background:rgba(34,211,238,.06);border-radius:0 10px 10px 0;color:#cbd5e1;
+    margin:16px 0;padding:12px 18px;border-left:3px solid var(--c-cyan);
+    background:rgba(34,211,238,.06);border-radius:0 12px 12px 0;color:#cbd5e1;
   }
   blockquote.amber{border-left-color:var(--c-amber);background:var(--c-amber-soft)}
   blockquote.purple{border-left-color:var(--c-purple);background:var(--c-purple-soft)}
-  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
-  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  .sup{font-size:.78em;color:#7dd3fc;vertical-align:super;margin-left:1px}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  th,td{padding:11px 13px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
   th{color:var(--muted);font-weight:500;font-size:12px;letter-spacing:.5px;text-transform:uppercase}
   a{color:#7dd3fc;text-decoration:none;border-bottom:1px dotted rgba(125,211,252,.4)}
   a:hover{border-bottom-style:solid}
-  .skill-anatomy{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;
-  }
-  .skill-anatomy .blk{background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;color:#cbd5e1}
-  .skill-anatomy .blk b{display:block;color:var(--c-purple);font-size:13px;margin-bottom:4px}
-  footer{margin-top:40px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
+  .diagram{background:var(--bg-4);border:1px solid var(--border);border-radius:14px;padding:20px;margin:16px 0;overflow:auto}
+  .diagram svg{width:100%;max-width:860px;height:auto;display:block;margin:0 auto}
+  .skill-anatomy{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+  .skill-anatomy .blk{background:var(--bg-3);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .skill-anatomy .blk b{display:block;color:var(--c-purple);font-size:15px;margin-bottom:6px}
+  .skill-anatomy .blk p{margin:0;color:#cbd5e1;font-size:13px;line-height:1.55}
+  .strategies{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:16px 0}
+  .strategy{background:var(--bg-3);border:1px solid var(--border);border-radius:12px;padding:18px;transition:transform .15s,border-color .15s}
+  .strategy:hover{transform:translateY(-2px);border-color:rgba(167,139,250,.4)}
+  .strategy .label{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--c-purple);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+  .strategy h4{margin:0 0 8px;color:var(--text);font-size:16px}
+  .strategy p{margin:0 0 8px;color:#cbd5e1;font-size:13px;line-height:1.55}
+  .strategy .fit{margin-top:10px;font-size:12px;color:var(--muted)}
+  .quiz-option{display:block;width:100%;text-align:left;background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin:8px 0;color:var(--text);cursor:pointer;transition:all .15s}
+  .quiz-option:hover{background:rgba(167,139,250,.1);border-color:rgba(167,139,250,.4)}
+  .quiz-option.correct{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.5)}
+  .quiz-option.wrong{background:rgba(251,81,105,.15);border-color:rgba(251,81,105,.5)}
+  .quiz-feedback{display:none;margin:10px 0;padding:12px 16px;border-radius:10px;font-size:13px}
+  .quiz-feedback.show{display:block}
+  footer{margin-top:48px;padding-top:18px;border-top:1px dashed var(--border);color:var(--muted);font-size:13px}
   .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;background:rgba(34,197,94,.15);color:#86efac;margin-left:6px}
   .pill.warn{background:rgba(251,191,36,.15);color:#fcd34d}
+  @media(max-width:720px){
+    .skill-anatomy{grid-template-columns:1fr}
+    .strategies{grid-template-columns:1fr}
+    h1{font-size:32px}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
+  <div class="guide-mode">Guide Mode · Source-Traced Concept Guide</div>
   <div class="crumb">xiaobai-nixiangji · learning-materials · skill.html</div>
   <h1>Skill · 可复用的任务知识包</h1>
-  <p class="subtitle">一份由 <code>learn-concept</code> Skill 生成的结构化学习卡片</p>
+  <p class="subtitle">不是"一段写得更长的 Prompt"，而是把<b>专长、流程与资料</b>封装成可被按需加载的模块。</p>
   <div class="meta">
-    <span class="chip">概念域 · AI / Agent 工程</span>
+    <span class="chip">对象 · 已会用 LLM / Agent，想把重复任务固化为可复用能力的开发者</span>
+    <span class="chip">目标 · 区分 Skill / Prompt / Tool / Agent，能设计一个可维护的 SKILL.md</span>
+    <span class="chip">重点 · 渐进式披露、Tool Learning 学术脉络、何时该做成 Skill</span>
+  </div>
+  <div class="meta" style="margin-top:10px">
+    <span class="chip">概念域 · AI / Agent Engineering / Reusable Knowledge</span>
     <span class="chip">生成时间 · 2026-09-09</span>
     <span class="chip">作者核查 · 已完成</span>
     <span class="chip">先验假设 · 入门</span>
@@ -77,158 +105,243 @@
 </header>
 
 <section class="card h-cyan">
-  <h2>1. 学习目标 <span class="tag">OBJECTIVE</span></h2>
+  <h2><span class="num">01 ·</span> 学习目标 <span class="tag">OBJECTIVE</span></h2>
   <ul>
-    <li><b>描述</b> Skill 在 AI Agent 系统里的角色,以及与 Prompt、Tool、Agent 的区别。</li>
-    <li><b>解释</b> SKILL.md 的典型结构(YAML frontmatter + 行为说明 + 资源附件),以及"渐进式披露"如何节省上下文。</li>
-    <li><b>区分</b> 一个工作流应该写成 Skill 还是只写一段 Prompt。</li>
+    <li><b>描述</b> Skill 在 AI Agent 系统里的角色，以及与 Prompt、Tool、Agent 的区别。</li>
+    <li><b>解释</b> SKILL.md 的典型结构（YAML frontmatter + 行为说明 + 资源附件），以及"渐进式披露"如何节省上下文。</li>
+    <li><b>区分</b> 一个工作流应该写成 Skill、Tool，还是只写一段 Prompt。</li>
+    <li><b>设计</b> 一个符合可复用标准的 Skill，使其能被其他项目或会话调用。</li>
   </ul>
 </section>
 
 <section class="card h-purple">
-  <h2>2. 核心问题 <span class="tag">CORE QUESTION</span></h2>
+  <h2><span class="num">02 ·</span> 核心问题 <span class="tag">CORE QUESTION</span></h2>
   <ol>
-    <li>Skill 和一段写进 System Prompt 的指令有什么不同?</li>
-    <li>为什么 Skill 要设计为"按需加载"而不是常驻上下文?</li>
-    <li>Skill 与 Function Calling / Tool Use 是同一回事吗?</li>
-    <li>Skill 与 GPTs / Custom Assistants 有什么关系?</li>
-    <li>什么样的任务才值得做成 Skill?</li>
+    <li>Skill 和一段写进 System Prompt 的指令有什么不同？</li>
+    <li>为什么 Skill 要设计为"按需加载"而不是常驻上下文？</li>
+    <li>Skill 与 Function Calling / Tool Use 是同一回事吗？</li>
+    <li>Skill 与 GPTs / Custom Assistants 有什么关系？</li>
+    <li>什么样的任务才值得做成 Skill？什么任务不该做？</li>
   </ol>
 </section>
 
 <section class="card h-cyan">
-  <h2>3. 结构化解释 <span class="tag">STRUCTURED</span></h2>
+  <h2><span class="num">03 ·</span> 先定义它 <span class="tag">DEFINITION</span></h2>
 
-  <h3 style="color:#7dd3fc;margin-top:0">一句话定义</h3>
+  <h3>两种权威定义</h3>
   <blockquote>
-    Skill 是 <b>把特定任务的专业知识(指令、流程、参考资料、可选脚本)打包成一个名字清楚、可被按需加载的模块</b>,让 AI 在需要时"临时学会"做这一件事,而不是把规则永久塞进上下文。<sup>[1][5]</sup>
+    <b>工业定义（Anthropic）</b>：Agent Skills 是"可复用的能力模块"，让 Agent 在运行时根据任务需求加载特定的指令、工具配置和上下文模板，从而扩展其专业能力，而不把所有规则都塞进系统提示。<span class="sup">[S1]</span><br><br>
+    这一定义强调：<b>模块化与按需加载</b>。Skill 把专长拆出来，需要时再读。
   </blockquote>
 
-  <h3 style="color:#7dd3fc">SKILL.md 的三段式结构</h3>
-  <div class="skill-anatomy">
-    <div class="blk"><b>① 元数据</b>YAML 写在文件最上方:name / description / 触发场景说明</div>
-    <div class="blk"><b>② 行为说明</b>Markdown 主体:适用场景、输入、流程、输出、自检</div>
-    <div class="blk"><b>③ 资源附件</b>scripts / templates / reference.md 等按需加载</div>
-  </div>
+  <blockquote class="purple">
+    <b>工程定义（OpenAI）</b>：Function Calling 让模型能够根据用户输入自动选择并调用外部函数；而 Skill / GPTs 则是在这一能力之上，把"何时调用、怎么调用、输出什么格式"的完整知识打包成一个可复用单元。<span class="sup">[S2]</span><br><br>
+    这一定义强调：<b>Skill 是 Tool Learning 的工程封装</b>。它不是单个函数，而是围绕函数的知识包。
+  </blockquote>
 
-  <h3 style="color:#7dd3fc">"渐进式披露"与上下文节省</h3>
-  <ol>
-    <li>系统启动时,模型只看到每个 Skill 的 <b>name + description</b>(几十 token)。</li>
-    <li>用户提出任务 → 模型判断哪个 Skill 匹配 → 读取其 <b>SKILL.md 全文</b>。</li>
-    <li>如果 SKILL.md 里引了脚本或模板,需要时再读相应文件。</li>
-    <li>整个过程类似"工具调用",但载的是<b>知识</b>而不是外部 API 结果。<sup>[5]</sup></li>
-  </ol>
-  <p>这种设计与 Chameleon 等模块化 Agent 的思路一致:不要把所有能力一开始就拼进 prompt,而是让模型在运行时根据任务动态组合模块。<sup>[2]</sup></p>
-
-  <h3 style="color:#7dd3fc">学术脉络:从 Tool Use 到 Skill 封装</h3>
-  <p>Skill 并非凭空出现。它的底层是<b>工具学习(Tool Learning)</b>研究:Toolformer 证明 LLM 可以自学何时调用工具;Gorilla 证明模型可以学会调用海量 API;Chameleon 证明模型可以按任务组合不同工具。<sup>[3][4][2]</sup> Skill 是这些能力在工程层面的<b>封装形态</b> —— 把"调用什么、怎么调用、输出什么格式"写成可复用的知识包。</p>
+  <h3>一句话个人解释</h3>
+  <p>Skill 是 <b>把特定任务的专业知识（指令、流程、参考资料、可选脚本）打包成一个名字清楚、可被按需加载的模块</b>，让 AI 在需要时"临时学会"做这一件事，而不是把规则永久塞进上下文。</p>
 </section>
 
 <section class="card h-purple">
-  <h2>4. 应用场景 <span class="tag">CASE</span></h2>
+  <h2><span class="num">04 ·</span> 结构化解释 <span class="tag">MECHANISM</span></h2>
+
+  <h3>SKILL.md 的三段式结构</h3>
+  <div class="skill-anatomy">
+    <div class="blk">
+      <b>① 元数据</b>
+      <p>YAML 写在文件最上方：name / description / 触发场景说明。description 是 Skill 的"名片"，模型靠它判断要不要加载。</p>
+    </div>
+    <div class="blk">
+      <b>② 行为说明</b>
+      <p>Markdown 主体：适用场景、输入字段、执行流程、输出结构、自检清单。这是 Skill 的"说明书"。</p>
+    </div>
+    <div class="blk">
+      <b>③ 资源附件</b>
+      <p>scripts / templates / reference.md 等按需加载。需要时再读，不常驻上下文。</p>
+    </div>
+  </div>
+
+  <h3>"渐进式披露"与上下文节省</h3>
+  <ol>
+    <li>系统启动时，模型只看到每个 Skill 的 <b>name + description</b>（几十 token）。</li>
+    <li>用户提出任务 → 模型判断哪个 Skill 匹配 → 读取其 <b>SKILL.md 全文</b>。</li>
+    <li>如果 SKILL.md 里引了脚本或模板，需要时再读相应文件。</li>
+    <li>整个过程类似"工具调用"，但载的是<b>知识</b>而不是外部 API 结果。</li>
+  </ol>
+  <p>这种设计与 Chameleon 等模块化 Agent 的思路一致：不要把所有能力一开始就拼进 prompt，而是让模型在运行时根据任务动态组合模块。<span class="sup">[S3]</span></p>
+
+  <h3>学术脉络：从 Tool Use 到 Skill 封装</h3>
+  <div class="diagram">
+<svg viewBox="0 0 860 200" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/></marker>
+  </defs>
+  <rect x="40"  y="70" width="180" height="70" rx="12" fill="#0b1224" stroke="#22d3ee" stroke-width="2"/>
+  <text x="130" y="100" fill="#22d3ee" font-size="14" font-weight="600" text-anchor="middle">Tool Learning</text>
+  <text x="130" y="120" fill="#94a3b8" font-size="11" text-anchor="middle">模型学习何时调用工具</text>
+
+  <rect x="260" y="70" width="180" height="70" rx="12" fill="#0b1224" stroke="#a78bfa" stroke-width="2"/>
+  <text x="350" y="100" fill="#a78bfa" font-size="14" font-weight="600" text-anchor="middle">API 掌握</text>
+  <text x="350" y="120" fill="#94a3b8" font-size="11" text-anchor="middle">学会海量 API 签名</text>
+
+  <rect x="480" y="70" width="180" height="70" rx="12" fill="#0b1224" stroke="#fbbf24" stroke-width="2"/>
+  <text x="570" y="100" fill="#fbbf24" font-size="14" font-weight="600" text-anchor="middle">模块化组合</text>
+  <text x="570" y="120" fill="#94a3b8" font-size="11" text-anchor="middle">按任务组合不同工具</text>
+
+  <rect x="700" y="70" width="140" height="70" rx="12" fill="#0b1224" stroke="#fb7185" stroke-width="2"/>
+  <text x="770" y="100" fill="#fb7185" font-size="14" font-weight="600" text-anchor="middle">Skill</text>
+  <text x="770" y="120" fill="#94a3b8" font-size="11" text-anchor="middle">知识 + 流程封装</text>
+
+  <line x1="220" y1="105" x2="260" y2="105" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="440" y1="105" x2="480" y2="105" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="660" y1="105" x2="700" y2="105" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="430" y="170" fill="#94a3b8" font-size="12" text-anchor="middle">从"能调用工具"到"能把调用方法沉淀成可复用知识包"</text>
+</svg>
+  </div>
+  <p>Skill 并非凭空出现。它的底层是<b>工具学习（Tool Learning）</b>研究：Toolformer 证明 LLM 可以自学何时调用工具；Gorilla 证明模型可以学会调用海量 API；Chameleon 证明模型可以按任务组合不同工具。<span class="sup">[S4][S5][S3]</span> Skill 是这些能力在工程层面的<b>封装形态</b> —— 把"调用什么、怎么调用、输出什么格式"写成可复用的知识包。</p>
+</section>
+
+<section class="card h-purple">
+  <h2><span class="num">05 ·</span> 应用场景 <span class="tag">CASE</span></h2>
   <blockquote>
-    <b>场景</b>:研究团队每次让 AI 总结 arXiv 论文都要重复一段固定指令 + 输出格式,于是打包成 <code>arxiv-summarizer</code> Skill。<br><br>
-    <b>怎么落地</b>:
+    <b>场景</b>：研究团队每次让 AI 总结 arXiv 论文都要重复一段固定指令 + 输出格式，于是打包成 <code>arxiv-summarizer</code> Skill。<br><br>
+    <b>怎么落地</b>：
     <ol>
-      <li>建 <code>arxiv-summarizer/SKILL.md</code>,YAML 描述"用结构化方式总结学术论文"。</li>
-      <li>正文写明:输入是论文标题 / 摘要 / PDF 链接,输出固定为<b>3 句话核心 + 1 张方法表 + 1 段质疑</b>。</li>
+      <li>建 <code>arxiv-summarizer/SKILL.md</code>，YAML 描述"用结构化方式总结学术论文"。</li>
+      <li>正文写明：输入是论文标题 / 摘要 / PDF 链接，输出固定为<b>3 句话核心 + 1 张方法表 + 1 段质疑</b>。</li>
       <li>附一个 <code>templates/summary-table.md</code> 给模型参考。</li>
-      <li>以后每次只要说"用 arxiv-summarizer 处理这篇",模型就知道如何调用工具、解析 PDF、整理格式。</li>
+      <li>以后每次只要说"用 arxiv-summarizer 处理这篇"，模型就知道如何调用工具、解析 PDF、整理格式。</li>
     </ol>
-    <b>边界</b>:如果任务本身不重复(Skill 写完只用一次),就不值得做 Skill,Prompt 反而更快。<br>
-    <b>来源</b>:类似的可复用指令封装在 Anthropic Agent Skills 文档<sup>[5]</sup>和 OpenAI Function Calling 指南<sup>[6]</sup>中均有工程化描述。
+    <b>边界</b>：如果任务本身不重复（Skill 写完只用一次），就不值得做 Skill，Prompt 反而更快。<br>
+    <b>来源</b>：类似的可复用指令封装在 Anthropic Agent Skills 文档<span class="sup">[S1]</span>和 OpenAI Function Calling 指南<span class="sup">[S2]</span>中均有工程化描述。
   </blockquote>
 </section>
 
+<section class="card h-emerald">
+  <h2><span class="num">06 ·</span> 策略卡片 / 最佳实践 <span class="tag">STRATEGIES</span></h2>
+  <div class="strategies">
+    <div class="strategy">
+      <div class="label">01 · SHORT DESCRIPTION</div>
+      <h4>description 要短而准</h4>
+      <p>description 是 Skill 的"名片"，模型每轮都会看。如果写得太长，会浪费上下文；如果写得不准，Skill 永远不会被命中。</p>
+      <div class="fit">适合：所有 Skill · 来源 <span class="sup">[S1]</span></div>
+    </div>
+    <div class="strategy">
+      <div class="label">02 · INPUT CONTRACT</div>
+      <h4>明确定义输入字段</h4>
+      <p>把必填/选填字段、格式、示例写清楚。模糊的输入会让模型在调用时猜，降低成功率。</p>
+      <div class="fit">适合：需要复杂参数的任务 · 来源 <span class="sup">[S2]</span></div>
+    </div>
+    <div class="strategy">
+      <div class="label">03 · SELF-CHECK</div>
+      <h4>包含自检清单</h4>
+      <p>在 SKILL.md 末尾列出交付前必须检查的事项。这能显著降低 AI 幻觉和输出格式错误。</p>
+      <div class="fit">适合：对准确性要求高的任务 · 来源 <span class="sup">[S6]</span></div>
+    </div>
+    <div class="strategy">
+      <div class="label">04 · VERSIONING</div>
+      <h4>用 Git 管理 Skill 版本</h4>
+      <p>Skill 也是会迭代的。把 SKILL.md 放在版本控制里，改动可追溯，也能回滚到稳定版本。</p>
+      <div class="fit">适合：长期维护的项目级 Skill · 来源 <span class="sup">[S6]</span></div>
+    </div>
+  </div>
+</section>
+
 <section class="card h-amber">
-  <h2>5. 概念辨析 & 使用边界 <span class="tag">BOUNDARY</span></h2>
+  <h2><span class="num">07 ·</span> 概念辨析 & 使用边界 <span class="tag">BOUNDARY</span></h2>
   <table>
     <thead><tr><th>对比项</th><th>Prompt</th><th>Skill</th><th>Tool / Function</th><th>Agent</th></tr></thead>
     <tbody>
       <tr><td>形态</td><td>一段文本</td><td>带元数据的文件夹</td><td>可执行函数</td><td>带循环的运行实体</td></tr>
       <tr><td>加载方式</td><td>常驻上下文</td><td>按需加载</td><td>按需调用</td><td>自主运行</td></tr>
-      <tr><td>能写代码</td><td>否</td><td>是(可选)</td><td>必须</td><td>通常包括</td></tr>
+      <tr><td>能写代码</td><td>否</td><td>是（可选）</td><td>必须</td><td>通常包括</td></tr>
       <tr><td>核心价值</td><td>风格/任务控制</td><td>专长沉淀</td><td>能力扩展</td><td>目标完成</td></tr>
     </tbody>
   </table>
   <blockquote class="amber">
-    <b>四条硬边界</b>:
+    <b>四条硬边界</b>：
     <ol>
-      <li><b>不要把 Skill 当万能钥匙</b>:它沉淀的是"我每次都要做的事",不是"任何事都能做的开关"。</li>
-      <li><b>不要把业务规则全塞进 description</b>:description 永远加载,应保持简短;详细规则放在 SKILL.md 主体里按需读取。</li>
-      <li><b>不要把 Skill 和 Tool 混淆</b>:Skill 是<b>告诉 AI 怎么做事</b>,Tool 是<b>让 AI 真的去拿数据 / 改状态</b>。<sup>[3][6]</sup></li>
-      <li><b>不要把一次性任务做成 Skill</b>:建 Skill、维护 description 都有成本,只在重复任务上才划算。</li>
+      <li><b>不要把 Skill 当万能钥匙</b>：它沉淀的是"我每次都要做的事"，不是"任何事都能做的开关"。</li>
+      <li><b>不要把业务规则全塞进 description</b>：description 永远加载，应保持简短；详细规则放在 SKILL.md 主体里按需读取。</li>
+      <li><b>不要把 Skill 和 Tool 混淆</b>：Skill 是<b>告诉 AI 怎么做事</b>，Tool 是<b>让 AI 真的去拿数据 / 改状态</b>。<span class="sup">[S4][S2]</span></li>
+      <li><b>不要把一次性任务做成 Skill</b>：建 Skill、维护 description 都有成本，只在重复任务上才划算。</li>
     </ol>
   </blockquote>
 </section>
 
+<section class="card h-purple">
+  <h2><span class="num">08 ·</span> 交互练习 <span class="tag">PRACTICE</span></h2>
+  <p><b>场景</b>：你正在维护一个 AI 写作助手。以下四个需求中，哪些最适合做成 Skill？</p>
+  <button class="quiz-option" onclick="checkSkill(this,true,'A')">A. 把"生成小红书文案"的固定格式和语气写成可复用模块</button>
+  <button class="quiz-option" onclick="checkSkill(this,false,'B')">B. 每次用户临时提出的"帮我写一句问候"</button>
+  <button class="quiz-option" onclick="checkSkill(this,true,'C')">C. 把"检查文章是否符合 APA 引用规范"封装成可复用能力</button>
+  <button class="quiz-option" onclick="checkSkill(this,false,'D')">D. 单次的数据库备份脚本</button>
+  <div id="skill-feedback" class="quiz-feedback"></div>
+</section>
+
 <section class="card h-cyan">
-  <h2>6. 自测题 <span class="tag">QUIZ</span></h2>
+  <h2><span class="num">09 ·</span> 自测题 <span class="tag">QUIZ</span></h2>
   <ol>
     <li>
-      <b>(定义)</b> 用一句话区分 Skill 与 System Prompt。
-      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>System Prompt 永久占用上下文;Skill 是按需加载的知识包,不调用就不占位置。</details>
+      <b>（定义）</b> 用一句话区分 Skill 与 System Prompt。
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>System Prompt 永久占用上下文；Skill 是按需加载的知识包，不调用就不占位置。</details>
     </li>
     <li>
-      <b>(机制)</b> 解释 SKILL.md 里为什么要单独留一段"输入字段表",而不是直接把字段写进 description。
-      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>description 每轮都加载要短;输入字段表属于详细规则,按需加载可以长。这是渐进式披露的关键。</details>
+      <b>（机制）</b> 解释 SKILL.md 里为什么要单独留一段"输入字段表"，而不是直接把字段写进 description。
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>description 每轮都加载要短；输入字段表属于详细规则，按需加载可以长。这是渐进式披露的关键。</details>
     </li>
     <li>
-      <b>(边界)</b> 假设需求是"每天打开电脑,自动把昨天下载文件夹的文件按类型归档",你会不会写成 Skill?为什么?
-      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>不会。这更像自动化脚本 + 定时任务,不是依赖 AI 推理的"知识包"。Skill 强调 AI 判断 + 知识沉淀。</details>
+      <b>（边界）</b> 假设需求是"每天打开电脑，自动把昨天下载文件夹的文件按类型归档"，你会不会写成 Skill？为什么？
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>不会。这更像自动化脚本 + 定时任务，不是依赖 AI 推理的"知识包"。Skill 强调 AI 判断 + 知识沉淀。</details>
+    </li>
+    <li>
+      <b>（学术脉络）</b> Toolformer、Gorilla、Chameleon 三篇论文分别解决了 Skill 形成的哪个前置问题？
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>Toolformer：自学何时调用工具；Gorilla：学会调用海量 API；Chameleon：按任务组合工具。三者共同支撑了 Skill 的模块化封装。<span class="sup">[S3][S4][S5]</span></details>
     </li>
   </ol>
 </section>
 
 <section class="card h-purple">
-  <h2>7. 参考来源 <span class="tag">SOURCES</span></h2>
+  <h2><span class="num">10 ·</span> 参考来源 <span class="tag">SOURCES</span></h2>
   <table>
-    <thead><tr><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
+    <thead><tr><th>编号</th><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
     <tbody>
-      <tr>
-        <td>T0 论文</td>
-        <td>Chameleon: Plug-and-Play Compositional Reasoning with Large Language Models (Lu et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2304.09842">arxiv.org/abs/2304.09842</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>Toolformer: Language Models Can Teach Themselves to Use Tools (Schick et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2302.04761">arxiv.org/abs/2302.04761</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 论文</td>
-        <td>Gorilla: Large Language Model Connected with Massive APIs (Patil et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2305.15334">arxiv.org/abs/2305.15334</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T0 综述</td>
-        <td>Tool Learning with Large Language Models: A Survey (Qin et al., 2023)</td>
-        <td><a href="https://arxiv.org/abs/2304.08354">arxiv.org/abs/2304.08354</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T1 厂商文档</td>
-        <td>Agent Skills overview — Claude Docs</td>
-        <td><a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview">docs.claude.com/.../agent-skills/overview</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T1 厂商文档</td>
-        <td>Function calling — OpenAI Platform</td>
-        <td><a href="https://platform.openai.com/docs/guides/function-calling">platform.openai.com/docs/guides/function-calling</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
+      <tr><td>S1</td><td>T1 厂商文档</td><td>Agent Skills overview — Claude Docs</td><td><a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview">docs.claude.com/.../agent-skills/overview</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S2</td><td>T1 厂商文档</td><td>Function calling — OpenAI Platform</td><td><a href="https://platform.openai.com/docs/guides/function-calling">platform.openai.com/docs/guides/function-calling</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S3</td><td>T0 论文</td><td>Chameleon: Plug-and-Play Compositional Reasoning with Large Language Models (Lu et al., 2023)</td><td><a href="https://arxiv.org/abs/2304.09842">arxiv.org/abs/2304.09842</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S4</td><td>T0 论文</td><td>Toolformer: Language Models Can Teach Themselves to Use Tools (Schick et al., 2023)</td><td><a href="https://arxiv.org/abs/2302.04761">arxiv.org/abs/2302.04761</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S5</td><td>T0 论文</td><td>Gorilla: Large Language Model Connected with Massive APIs (Patil et al., 2023)</td><td><a href="https://arxiv.org/abs/2305.15334">arxiv.org/abs/2305.15334</a></td><td><span class="pill">已核</span></td></tr>
+      <tr><td>S6</td><td>T0 综述</td><td>Tool Learning with Large Language Models: A Survey (Qin et al., 2023)</td><td><a href="https://arxiv.org/abs/2304.08354">arxiv.org/abs/2304.08354</a></td><td><span class="pill">已核</span></td></tr>
     </tbody>
   </table>
 </section>
 
 <footer>
   本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
-  所有引用链接截至 2026-09-09 可访问;若链接变更请以 arXiv / 官方归档为准。
+  所有引用链接截至 2026-09-09 可访问；若链接变更请以 arXiv / 官方归档为准。
 </footer>
+
+<script>
+function checkSkill(btn, correct, id){
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o=>{o.disabled=true;o.classList.remove('correct','wrong');});
+  const fb = document.getElementById('skill-feedback');
+  if(correct){
+    btn.classList.add('correct');
+    fb.innerHTML = '<b style="color:#86efac">正确。</b>"生成小红书文案"和"APA 引用检查"都是重复性、需要固定格式/规则的任务，适合封装成 Skill。临时问候和单次脚本则不需要。';
+  }else{
+    btn.classList.add('wrong');
+    opts[0].classList.add('correct');
+    opts[2].classList.add('correct');
+    let reason = '';
+    if(id==='B') reason = '临时一句问候没有复用价值，直接写 Prompt 更快。';
+    if(id==='D') reason = '单次数据库备份是确定性脚本，不是依赖 AI 推理的"知识包"。';
+    fb.innerHTML = '<b style="color:#fb7185">不太对。</b>'+reason+'适合做 Skill 的是 A 和 C：重复性高、需要沉淀格式/规则的任务。';
+  }
+  fb.className = 'quiz-feedback show';
+}
+</script>
 
 </div>
 </body>
