@@ -70,7 +70,7 @@
   <p class="subtitle">一份由 <code>learn-concept</code> Skill 生成的结构化学习卡片</p>
   <div class="meta">
     <span class="chip">概念域 · AI / Agent 工程</span>
-    <span class="chip">生成时间 · 2026-09-08</span>
+    <span class="chip">生成时间 · 2026-09-09</span>
     <span class="chip">作者核查 · 已完成</span>
     <span class="chip">先验假设 · 入门</span>
   </div>
@@ -79,9 +79,9 @@
 <section class="card h-cyan">
   <h2>1. 学习目标 <span class="tag">OBJECTIVE</span></h2>
   <ul>
-    <li><b>描述</b> Skill 在 AI Agent 系统里扮演什么角色,与 Prompt / Tool / Agent 的区别。</li>
-    <li><b>解释</b> SKILL.md 的典型结构(YAML frontmatter + 说明 + 可选脚本/资源)。</li>
-    <li><b>应用</b> 判断一个工作流该写 Skill 还是只写一段 Prompt。</li>
+    <li><b>描述</b> Skill 在 AI Agent 系统里的角色,以及与 Prompt、Tool、Agent 的区别。</li>
+    <li><b>解释</b> SKILL.md 的典型结构(YAML frontmatter + 行为说明 + 资源附件),以及"渐进式披露"如何节省上下文。</li>
+    <li><b>区分</b> 一个工作流应该写成 Skill 还是只写一段 Prompt。</li>
   </ul>
 </section>
 
@@ -89,10 +89,10 @@
   <h2>2. 核心问题 <span class="tag">CORE QUESTION</span></h2>
   <ol>
     <li>Skill 和一段写进 System Prompt 的指令有什么不同?</li>
-    <li>Skill 是不是就是 OpenAI 的 GPTs / Assistants?</li>
-    <li>Skill 为什么通常做成"按需加载",而不是一次塞进上下文?</li>
-    <li>Skill 写完放在哪?谁负责加载它?</li>
-    <li>Skill 的可复用性和 Agent 的自主性会不会冲突?</li>
+    <li>为什么 Skill 要设计为"按需加载"而不是常驻上下文?</li>
+    <li>Skill 与 Function Calling / Tool Use 是同一回事吗?</li>
+    <li>Skill 与 GPTs / Custom Assistants 有什么关系?</li>
+    <li>什么样的任务才值得做成 Skill?</li>
   </ol>
 </section>
 
@@ -101,7 +101,7 @@
 
   <h3 style="color:#7dd3fc;margin-top:0">一句话定义</h3>
   <blockquote>
-    Skill 是 <b>把特定任务的专业知识(指令、流程、参考资料、可选脚本)打包成一个名字清楚、可被按需加载的文件夹</b>,让 AI 在需要时"临时学会"做这一件事。
+    Skill 是 <b>把特定任务的专业知识(指令、流程、参考资料、可选脚本)打包成一个名字清楚、可被按需加载的模块</b>,让 AI 在需要时"临时学会"做这一件事,而不是把规则永久塞进上下文。<sup>[1][5]</sup>
   </blockquote>
 
   <h3 style="color:#7dd3fc">SKILL.md 的三段式结构</h3>
@@ -111,28 +111,32 @@
     <div class="blk"><b>③ 资源附件</b>scripts / templates / reference.md 等按需加载</div>
   </div>
 
-  <h3 style="color:#7dd3fc">"渐进式披露"是如何工作的</h3>
+  <h3 style="color:#7dd3fc">"渐进式披露"与上下文节省</h3>
   <ol>
     <li>系统启动时,模型只看到每个 Skill 的 <b>name + description</b>(几十 token)。</li>
     <li>用户提出任务 → 模型判断哪个 Skill 匹配 → 读取其 <b>SKILL.md 全文</b>。</li>
     <li>如果 SKILL.md 里引了脚本或模板,需要时再读相应文件。</li>
-    <li>整个过程类似"工具调用",但载的是<b>知识</b>而不是外部 API 结果。</li>
+    <li>整个过程类似"工具调用",但载的是<b>知识</b>而不是外部 API 结果。<sup>[5]</sup></li>
   </ol>
-  <p>Anthropic 在 2025 年公开的 Agent Skills 即采用这种"先读 description,再加载主体"的范式,目的是<b>不污染上下文</b>的同时让专长可复用。<sup>[1][2]</sup></p>
+  <p>这种设计与 Chameleon 等模块化 Agent 的思路一致:不要把所有能力一开始就拼进 prompt,而是让模型在运行时根据任务动态组合模块。<sup>[2]</sup></p>
+
+  <h3 style="color:#7dd3fc">学术脉络:从 Tool Use 到 Skill 封装</h3>
+  <p>Skill 并非凭空出现。它的底层是<b>工具学习(Tool Learning)</b>研究:Toolformer 证明 LLM 可以自学何时调用工具;Gorilla 证明模型可以学会调用海量 API;Chameleon 证明模型可以按任务组合不同工具。<sup>[3][4][2]</sup> Skill 是这些能力在工程层面的<b>封装形态</b> —— 把"调用什么、怎么调用、输出什么格式"写成可复用的知识包。</p>
 </section>
 
 <section class="card h-purple">
   <h2>4. 应用场景 <span class="tag">CASE</span></h2>
   <blockquote>
-    <b>场景</b>:你每次让 AI 总结 arXiv 论文都要重复一段很长的固定指令 + 输出格式,你把它打包成 <code>arxiv-summarizer</code> Skill。<br><br>
+    <b>场景</b>:研究团队每次让 AI 总结 arXiv 论文都要重复一段固定指令 + 输出格式,于是打包成 <code>arxiv-summarizer</code> Skill。<br><br>
     <b>怎么落地</b>:
     <ol>
-      <li>建 <code>arxiv-summarizer/SKILL.md</code>,YAML 描述"<code>用结构化方式总结学术论文</code>"。</li>
+      <li>建 <code>arxiv-summarizer/SKILL.md</code>,YAML 描述"用结构化方式总结学术论文"。</li>
       <li>正文写明:输入是论文标题 / 摘要 / PDF 链接,输出固定为<b>3 句话核心 + 1 张方法表 + 1 段质疑</b>。</li>
       <li>附一个 <code>templates/summary-table.md</code> 给模型参考。</li>
-      <li>以后每次只要说"用 arxiv-summarizer 处理这篇",模型就知道怎么做。</li>
+      <li>以后每次只要说"用 arxiv-summarizer 处理这篇",模型就知道如何调用工具、解析 PDF、整理格式。</li>
     </ol>
-    <b>边界</b>:如果任务本身不重复(Skill 写完只用一次),就不值得做 Skill,Prompt 反而更快。
+    <b>边界</b>:如果任务本身不重复(Skill 写完只用一次),就不值得做 Skill,Prompt 反而更快。<br>
+    <b>来源</b>:类似的可复用指令封装在 Anthropic Agent Skills 文档<sup>[5]</sup>和 OpenAI Function Calling 指南<sup>[6]</sup>中均有工程化描述。
   </blockquote>
 </section>
 
@@ -142,17 +146,18 @@
     <thead><tr><th>对比项</th><th>Prompt</th><th>Skill</th><th>Tool / Function</th><th>Agent</th></tr></thead>
     <tbody>
       <tr><td>形态</td><td>一段文本</td><td>带元数据的文件夹</td><td>可执行函数</td><td>带循环的运行实体</td></tr>
-      <tr><td>复用方式</td><td>复制粘贴</td><td>按需加载</td><td>按需调用</td><td>—</td></tr>
+      <tr><td>加载方式</td><td>常驻上下文</td><td>按需加载</td><td>按需调用</td><td>自主运行</td></tr>
       <tr><td>能写代码</td><td>否</td><td>是(可选)</td><td>必须</td><td>通常包括</td></tr>
-      <tr><td>核心价值</td><td>风格控制</td><td>专长沉淀</td><td>能力扩展</td><td>目标完成</td></tr>
+      <tr><td>核心价值</td><td>风格/任务控制</td><td>专长沉淀</td><td>能力扩展</td><td>目标完成</td></tr>
     </tbody>
   </table>
   <blockquote class="amber">
-    <b>三条硬边界</b>:
+    <b>四条硬边界</b>:
     <ol>
-      <li><b>不要把 Skill 当万能钥匙</b>:它沉淀的是<b>我每次都要做的事</b>,不是"任何事都能做的开关"。</li>
-      <li><b>不要把"业务规则"塞进 description 里全部公开</b>:description 永远加载 → 写得越短越隐私友好。</li>
-      <li><b>不要和"工具调用"混淆</b>:Skill 是<b>告诉 AI 怎么做事</b>,Tool 是<b>让 AI 真的去拿数据 / 改状态</b>。</li>
+      <li><b>不要把 Skill 当万能钥匙</b>:它沉淀的是"我每次都要做的事",不是"任何事都能做的开关"。</li>
+      <li><b>不要把业务规则全塞进 description</b>:description 永远加载,应保持简短;详细规则放在 SKILL.md 主体里按需读取。</li>
+      <li><b>不要把 Skill 和 Tool 混淆</b>:Skill 是<b>告诉 AI 怎么做事</b>,Tool 是<b>让 AI 真的去拿数据 / 改状态</b>。<sup>[3][6]</sup></li>
+      <li><b>不要把一次性任务做成 Skill</b>:建 Skill、维护 description 都有成本,只在重复任务上才划算。</li>
     </ol>
   </blockquote>
 </section>
@@ -162,24 +167,15 @@
   <ol>
     <li>
       <b>(定义)</b> 用一句话区分 Skill 与 System Prompt。
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        System Prompt 永久占用上下文;Skill 是<b>按需加载</b>的知识包,不调用就不占位置。
-      </details>
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>System Prompt 永久占用上下文;Skill 是按需加载的知识包,不调用就不占位置。</details>
     </li>
     <li>
       <b>(机制)</b> 解释 SKILL.md 里为什么要单独留一段"输入字段表",而不是直接把字段写进 description。
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        description 每轮都加载,要短;详细信息按需加载,可以长。<b>渐进式披露</b>的关键。
-      </details>
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>description 每轮都加载要短;输入字段表属于详细规则,按需加载可以长。这是渐进式披露的关键。</details>
     </li>
     <li>
-      <b>(边界)</b> 给你一个"每天打开电脑,自动把昨天下载文件夹的文件按类型归档"的需求,你会不会写成 Skill?为什么?
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        这更像是 <b>自动化脚本 + 定时任务</b>,不是可被 AI 调用、依赖 AI 推理的"知识包"。Skill 强调<b>AI 判断 + 知识沉淀</b>,归档更适合作 <b>automation</b>。
-      </details>
+      <b>(边界)</b> 假设需求是"每天打开电脑,自动把昨天下载文件夹的文件按类型归档",你会不会写成 Skill?为什么?
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>不会。这更像自动化脚本 + 定时任务,不是依赖 AI 推理的"知识包"。Skill 强调 AI 判断 + 知识沉淀。</details>
     </li>
   </ol>
 </section>
@@ -190,9 +186,27 @@
     <thead><tr><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
     <tbody>
       <tr>
-        <td>T1 厂商文章</td>
-        <td>Equipping agents for the real world with Agent Skills — Anthropic Engineering</td>
-        <td><a href="https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills">anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills</a></td>
+        <td>T0 论文</td>
+        <td>Chameleon: Plug-and-Play Compositional Reasoning with Large Language Models (Lu et al., 2023)</td>
+        <td><a href="https://arxiv.org/abs/2304.09842">arxiv.org/abs/2304.09842</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T0 论文</td>
+        <td>Toolformer: Language Models Can Teach Themselves to Use Tools (Schick et al., 2023)</td>
+        <td><a href="https://arxiv.org/abs/2302.04761">arxiv.org/abs/2302.04761</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T0 论文</td>
+        <td>Gorilla: Large Language Model Connected with Massive APIs (Patil et al., 2023)</td>
+        <td><a href="https://arxiv.org/abs/2305.15334">arxiv.org/abs/2305.15334</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T0 综述</td>
+        <td>Tool Learning with Large Language Models: A Survey (Qin et al., 2023)</td>
+        <td><a href="https://arxiv.org/abs/2304.08354">arxiv.org/abs/2304.08354</a></td>
         <td><span class="pill">已核</span></td>
       </tr>
       <tr>
@@ -202,15 +216,9 @@
         <td><span class="pill">已核</span></td>
       </tr>
       <tr>
-        <td>T1 厂商产品</td>
-        <td>Introducing GPTs — OpenAI</td>
-        <td><a href="https://openai.com/index/introducing-gpts/">openai.com/index/introducing-gpts</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
         <td>T1 厂商文档</td>
-        <td>WorkBuddy Skills 文档</td>
-        <td><a href="https://www.workbuddy.cn/docs/workbuddy/Overview">workbuddy.cn/docs/workbuddy/Overview</a></td>
+        <td>Function calling — OpenAI Platform</td>
+        <td><a href="https://platform.openai.com/docs/guides/function-calling">platform.openai.com/docs/guides/function-calling</a></td>
         <td><span class="pill">已核</span></td>
       </tr>
     </tbody>
@@ -219,7 +227,7 @@
 
 <footer>
   本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
-  所有引用链接截至 2026-09-08 可访问;若链接变更请以官方归档(web.archive.org)为准。
+  所有引用链接截至 2026-09-09 可访问;若链接变更请以 arXiv / 官方归档为准。
 </footer>
 
 </div>

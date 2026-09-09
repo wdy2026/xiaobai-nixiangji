@@ -68,7 +68,7 @@
   <p class="subtitle">一份由 <code>learn-concept</code> Skill 生成的结构化学习卡片</p>
   <div class="meta">
     <span class="chip">概念域 · AI / LLM</span>
-    <span class="chip">生成时间 · 2026-09-08</span>
+    <span class="chip">生成时间 · 2026-09-09</span>
     <span class="chip">作者核查 · 已完成</span>
     <span class="chip">先验假设 · 入门</span>
   </div>
@@ -78,18 +78,18 @@
   <h2>1. 学习目标 <span class="tag">OBJECTIVE</span></h2>
   <ul>
     <li><b>描述</b> Agent 与普通 LLM 调用、Workflow、Copilot 的核心区别。</li>
-    <li><b>解释</b> 一个 Agent 在收到任务后,内部循环"思考 → 行动 → 观察"的具体过程。</li>
-    <li><b>区分</b> 什么场景必须用 Agent,什么场景用普通 LLM 调用就够了。</li>
+    <li><b>解释</b> ReAct 循环中推理(Reason)与行动(Act)如何交替,以及工具调用(Tool Use)在其中的位置。</li>
+    <li><b>区分</b> 什么场景必须用 Agent,什么场景用单次 LLM 调用或确定性 Workflow 就够了。</li>
   </ul>
 </section>
 
 <section class="card h-purple">
   <h2>2. 核心问题 <span class="tag">CORE QUESTION</span></h2>
   <ol>
-    <li>Agent 和 Chatbot 到底差在哪?</li>
-    <li>它"做事"靠的是模型本身,还是靠循环?</li>
-    <li>工具调用(Tool Use)在 Agent 里扮演什么角色?</li>
-    <li>Agent 的"记忆"和"上下文"是同一回事吗?</li>
+    <li>Agent 和 Chatbot 的根本差异在哪里?</li>
+    <li>ReAct 为什么要把"思考"和"行动"写成同一个序列?</li>
+    <li>Tool Use 是 Agent 的附加功能还是核心能力?</li>
+    <li>Agent 的"记忆"和 LLM 的"上下文"是同一回事吗?</li>
     <li>为什么不能所有任务都丢给 Agent?</li>
   </ol>
 </section>
@@ -99,69 +99,66 @@
 
   <h3 style="color:#7dd3fc;margin-top:0">一句话定义</h3>
   <blockquote>
-    Agent 是一类 <b>能自主规划、并通过工具与外部世界交互以完成目标</b> 的 LLM 系统。它不止于"回答",而是"把事情做完"。
+    Agent 是 <b>以大语言模型为认知核心,通过循环"推理—行动—观察"调用外部工具以达成目标的自主系统</b>。它不只是"回答",而是在一个开放环境中"把事情做完"。<sup>[1][4]</sup>
   </blockquote>
 
   <h3 style="color:#7dd3fc">核心机制:ReAct 循环</h3>
   <div class="stage">
-    <div class="step"><b>① Reason</b>读任务,决定是否需要拆解/查资料/调工具</div>
-    <div class="step"><b>② Act</b>调一个工具(查网页/读文件/调用 API)</div>
-    <div class="step"><b>③ Observe</b>读回结果,判断是否要继续循环</div>
-    <div class="step"><b>④ Decide</b>下一步是再来一次,还是收尾</div>
-    <div class="step"><b>⑤ Answer</b>把工具结果拼成最终答复</div>
+    <div class="step"><b>① Reason</b>读任务与历史,决定是否需要工具、用哪个工具</div>
+    <div class="step"><b>② Act</b>调用一个工具(检索/计算/API)</div>
+    <div class="step"><b>③ Observe</b>读回结果,更新对世界状态的理解</div>
+    <div class="step"><b>④ Decide</b>判断目标是否达成;未达成则继续循环</div>
+    <div class="step"><b>⑤ Answer</b>整合工具结果,给出最终响应</div>
   </div>
-  <p>ReAct(Reason + Act)是 2022 年 Yao 等人提出的范式,论文把"思考"和"行动"交错写进同一个 prompt,模型在每一轮决定是输出想法还是工具调用。<sup>[1][3]</sup></p>
+  <p>Yao 等人在 2022 年的 ReAct 论文中首次系统地把"推理轨迹(Thought)"和"行动轨迹(Action)"交错在一个统一的文本序列里,让模型在每一步自己决定是继续推理还是调用工具。<sup>[1]</sup> 与一次性 Chain-of-Thought 不同,ReAct 允许模型在推理过程中<b>主动修正</b>:如果检索返回为空,它会在下一轮换一种检索策略。</p>
 
   <h3 style="color:#7dd3fc">三块组成</h3>
   <ul>
-    <li><b>大脑</b>:LLM 负责推理与规划。</li>
-    <li><b>双手</b>:工具层 —— 函数调用、浏览器、文件系统、SQL、知识库。</li>
-    <li><b>记忆</b>:短期(当前会话上下文)+ 长期(向量库 / 数据库),决定 Agent 是否"认识你"。</li>
+    <li><b>大脑(Brain)</b>:LLM 负责规划、推理和决策。它本身只输出文本,不直接改变世界。</li>
+    <li><b>工具(Tools)</b>:函数、API、搜索引擎、代码解释器等,让 Agent 获得当前模型权重里不存在的信息或能力。Schick 等 2023 年的 Toolformer 证明语言模型可以<b>自学</b>何时调用工具。<sup>[2]</sup></li>
+    <li><b>记忆(Memory)</b>:短期记忆是当前会话的上下文,长期记忆是向量库、数据库或外部摘要。Wang 等的 2023 年综述把"记忆"列为 Agent 三大核心模块之一。<sup>[3]</sup></li>
   </ul>
+
+  <h3 style="color:#7dd3fc">Agent 在 AI 工程光谱中的位置</h3>
+  <p>从"单次模型调用"到"完整 Agent"是一个<b>自主性递增</b>的光谱:单次调用没有循环,Workflow 是预先写死的循环,Agent 是模型自己决定何时循环、循环到哪一步。<sup>[4]</sup></p>
 </section>
 
 <section class="card h-purple">
   <h2>4. 应用场景 <span class="tag">CASE</span></h2>
   <blockquote>
-    <b>场景</b>:让你电脑里的 AI 助手帮你<b>订一张今晚 9 点上海到北京最便宜的航班</b>。<br><br>
+    <b>场景</b>:学术研究助理 Agent 需要根据用户问题"找到最近 3 年关于长上下文 LLM 的 5 篇高被引论文,并给出方法对比表"。<br><br>
     <b>Agent 怎么解</b>:
     <ol>
-      <li>Reason:任务可能要查实时航班 → 必须调用搜索/航班 API,不能凭空编。</li>
-      <li>Act:调用航班工具 `search_flight(SHA,PEK,2026-09-08T21:00)`。</li>
-      <li>Observe:拿到 10 条结果,挑出 3 条低于均价的。</li>
-      <li>Reason:用户没给价格偏好 → 主动追问 / 给三档推荐。</li>
-      <li>Act:再调 `book_flight(flight_id,user_info)` 完成下单。</li>
+      <li>Reason:目标需要外部学术数据库,无法凭空编造 → 调用 Google Scholar / Semantic Scholar API。</li>
+      <li>Act:调用搜索工具 `search_papers("long-context LLM", years=3, top=10)`。</li>
+      <li>Observe:得到 10 篇候选论文,含标题、摘要、被引次数。</li>
+      <li>Reason:需要按被引次数排序并提取方法关键词 → 调用解析工具。</li>
+      <li>Act:调用 `extract_methods(paper_list)`。</li>
+      <li>Answer:生成对比表格,并为每篇给出可信度判断。</li>
     </ol>
-    <b>边界</b>:如果工具 API 不支持退款、改签,Agent 也只能"告诉你它做不到",不能伪造结果。
+    <b>边界</b>:Agent 只能基于工具返回的事实回答;如果搜索 API 漏掉重要论文,Agent 不会知道,只能提示"检索结果有限"。<br>
+    <b>来源</b>:类似能力在 ReAct 问答实验<sup>[1]</sup>和 Toolformer 工具调用实验<sup>[2]</sup>中已被验证。
   </blockquote>
-  <p>OpenAI 于 2025 年初上线的 <code>Operator</code> 就是这类 Agent 的产品形态。<sup>[4]</sup></p>
 </section>
 
 <section class="card h-amber">
   <h2>5. 概念辨析 & 使用边界 <span class="tag">BOUNDARY</span></h2>
   <table>
-    <thead><tr><th>对比项</th><th>普通 LLM 调用</th><th>Agent</th></tr></thead>
+    <thead><tr><th>对比项</th><th>普通 LLM 调用</th><th>Workflow</th><th>Agent</th></tr></thead>
     <tbody>
-      <tr>
-        <td>目标</td><td>回答单次问题</td><td>完成多步任务</td>
-      </tr>
-      <tr>
-        <td>工具</td><td>默认无</td><td>可注册多个工具,按需调用</td>
-      </tr>
-      <tr>
-        <td>循环</td><td>一轮即结束</td><td>Reason→Act→Observe 反复</td>
-      </tr>
-      <tr>
-        <td>失败模式</td><td>幻觉</td><td>幻觉 + 循环死锁 + 工具报错传染</td>
-      </tr>
+      <tr><td>目标</td><td>回答单次问题</td><td>完成预先定义的多步流程</td><td>完成目标,路径由模型决定</td></tr>
+      <tr><td>循环控制</td><td>无</td><td>人写死</td><td>模型自己决定循环次数</td></tr>
+      <tr><td>工具</td><td>可选</td><td>可选</td><td>通常必需</td></tr>
+      <tr><td>失败模式</td><td>幻觉</td><td>边界外输入导致崩溃</td><td>循环死锁、工具错用、累积性错误</td></tr>
+      <tr><td>最优场景</td><td>封闭问题</td><td>流程稳定、可枚举</td><td>目标明确但路径开放</td></tr>
     </tbody>
   </table>
   <blockquote class="amber">
     <b>三条硬边界</b>:
     <ol>
-      <li><b>不要给 Agent 写开放型目标</b>:"让公司今年活得更好" — 没有明确达成条件,Agent 会自循环到耗尽预算。</li>
-      <li><b>不要让 Agent 自己决定要不要调用付费 API</b>:把"是否花钱"留给人类把关。</li>
-      <li><b>不要把记忆当成上下文</b>:长期记忆是检索 + 摘要后的片段,不是历史会话原文。</li>
+      <li><b>不要把开放性目标交给 Agent</b>:"让公司今年活得更好"缺乏明确的完成条件,Agent 会自循环到耗尽预算。</li>
+      <li><b>不要让 Agent 在没有护栏的情况下调用付费/不可逆操作</b>:"下单""转账""发邮件"等动作必须有人类确认或回滚机制。</li>
+      <li><b>不要把记忆和上下文混为一谈</b>:上下文是本次推理的输入窗口,记忆是跨会话检索回来的外部信息。<sup>[3]</sup></li>
     </ol>
   </blockquote>
 </section>
@@ -171,24 +168,15 @@
   <ol>
     <li>
       <b>(定义)</b> 用一句话区分 Agent 与 Chatbot,并给出判定标准。
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        判定标准 = 是否能<b>自主选择并调用工具</b>以完成多步目标。
-      </details>
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>判定标准 = 是否能<b>自主决定调用工具</b>并在多步循环中追求目标。</details>
     </li>
     <li>
-      <b>(机制)</b> 描述 ReAct 循环里 Reason 与 Act 的最小切换规则,并解释"思考为什么不放在外部脚本里"。
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        模型自己决定何时停止思考、改成工具调用;放外部脚本会丢失对当前上下文的判断。
-      </details>
+      <b>(机制)</b> 解释 ReAct 为什么把"思考"和"行动"放在同一个序列里,而不是先全部推理再全部行动。
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>因为模型需要根据行动结果(观察)调整下一步推理;分开会失去反馈修正能力。<sup>[1]</sup></details>
     </li>
     <li>
       <b>(边界)</b> 给出 1 个<b>不该</b>用 Agent 的真实场景,并说明应该用什么替代。
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        例:"把这段中文翻译成英文" — 用单次 LLM 调用即可;上 Agent 是过度工程,徒增成本与不可控。
-      </details>
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>例:"把这段中文翻译成英文"用单次 LLM 调用即可;上 Agent 会引入不可控和成本,无收益。</details>
     </li>
   </ol>
 </section>
@@ -198,6 +186,24 @@
   <table>
     <thead><tr><th>类型</th><th>标题</th><th>链接</th><th>核查</th></tr></thead>
     <tbody>
+      <tr>
+        <td>T0 论文</td>
+        <td>ReAct: Synergizing Reasoning and Acting in Language Models (Yao et al., ICLR 2023)</td>
+        <td><a href="https://arxiv.org/abs/2210.03629">arxiv.org/abs/2210.03629</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T0 论文</td>
+        <td>Toolformer: Language Models Can Teach Themselves to Use Tools (Schick et al., 2023)</td>
+        <td><a href="https://arxiv.org/abs/2302.04761">arxiv.org/abs/2302.04761</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T0 综述</td>
+        <td>The Rise and Potential of Large Language Model Based Agents: A Survey (Wang et al., 2023)</td>
+        <td><a href="https://arxiv.org/abs/2309.07864">arxiv.org/abs/2309.07864</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
       <tr>
         <td>T1 厂商文章</td>
         <td>Building effective agents — Anthropic</td>
@@ -211,21 +217,9 @@
         <td><span class="pill">已核</span></td>
       </tr>
       <tr>
-        <td>T0 论文</td>
-        <td>ReAct: Synergizing Reasoning and Acting in Language Models (Yao et al., 2022)</td>
-        <td><a href="https://arxiv.org/abs/2210.03629">arxiv.org/abs/2210.03629</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T1 综述博客</td>
-        <td>LLM Powered Autonomous Agents — Lilian Weng</td>
-        <td><a href="https://lilianweng.github.io/posts/2023-06-23-agent/">lilianweng.github.io/posts/2023-06-23-agent</a></td>
-        <td><span class="pill">已核</span></td>
-      </tr>
-      <tr>
-        <td>T2 背景</td>
-        <td>AI Agent — Wikipedia</td>
-        <td><a href="https://en.wikipedia.org/wiki/AI_agent">en.wikipedia.org/wiki/AI_agent</a></td>
+        <td>T1 厂商文档</td>
+        <td>Function calling — OpenAI Platform</td>
+        <td><a href="https://platform.openai.com/docs/guides/function-calling">platform.openai.com/docs/guides/function-calling</a></td>
         <td><span class="pill">已核</span></td>
       </tr>
     </tbody>
@@ -234,7 +228,7 @@
 
 <footer>
   本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
-  所有引用链接截至 2026-09-08 可访问;若链接变更请以官方归档(web.archive.org)为准。
+  所有引用链接截至 2026-09-09 可访问;若链接变更请以 arXiv / 官方归档为准。
 </footer>
 
 </div>

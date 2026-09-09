@@ -71,7 +71,7 @@
   <p class="subtitle">一份由 <code>learn-concept</code> Skill 生成的结构化学习卡片</p>
   <div class="meta">
     <span class="chip">概念域 · AI / LLM</span>
-    <span class="chip">生成时间 · 2026-09-08</span>
+    <span class="chip">生成时间 · 2026-09-09</span>
     <span class="chip">作者核查 · 已完成</span>
     <span class="chip">先验假设 · 入门</span>
   </div>
@@ -80,19 +80,19 @@
 <section class="card h-cyan">
   <h2>1. 学习目标 <span class="tag">OBJECTIVE</span></h2>
   <ul>
-    <li><b>描述</b> "上下文"在 LLM 中的具体含义(不是日常口语里的"语境")。</li>
-    <li><b>解释</b> 上下文窗口(Context Window)与位置偏差(Lost-in-the-Middle)对输出的影响。</li>
-    <li><b>区分</b> 上下文、记忆、微调、RAG 之间的功能差异。</li>
+    <li><b>描述</b> "上下文"在 LLM 中的具体含义,区分它与日常语境中"上下文"的差异。</li>
+    <li><b>解释</b> 上下文窗口(Context Window)、位置偏差(Lost-in-the-Middle)和稀疏/线性注意力机制如何共同决定模型的长文本处理能力。</li>
+    <li><b>区分</b> 上下文、记忆(Memory)、微调(Fine-tune)和 RAG 在长文本任务中的分工。</li>
   </ul>
 </section>
 
 <section class="card h-purple">
   <h2>2. 核心问题 <span class="tag">CORE QUESTION</span></h2>
   <ol>
-    <li>模型"读到的"和"记住的"是同一回事吗?</li>
+    <li>模型"看到的"和"记住的"是同一回事吗?</li>
+    <li>Transformer 的自注意力为什么让上下文窗口成为计算瓶颈?</li>
     <li>为什么上下文窗口不是越大越好?</li>
-    <li>为什么把关键信息塞在上下文开头 / 末尾最有用?</li>
-    <li>上下文、记忆、微调、RAG 怎么分工?</li>
+    <li>为什么把关键信息放在上下文开头或末尾,模型更容易记住?</li>
     <li>上下文满了之后会发生什么?</li>
   </ol>
 </section>
@@ -102,62 +102,74 @@
 
   <h3 style="color:#7dd3fc;margin-top:0">一句话定义</h3>
   <blockquote>
-    大模型的"上下文"是指<b>这一次推理请求里,模型能"看见"的全部 token 序列</b>(系统提示 + 用户消息 + 工具结果 + 历史对话 + 检索片段),它决定模型本轮回答的依据。
+    大模型的"上下文"是指<b>当前推理请求中,模型能"看见"并用于生成下一个 token 的全部输入序列</b>,包括系统提示、历史对话、检索片段和工具返回。它不等同于"记忆",也不等同于"知识"。<sup>[1][3]</sup>
   </blockquote>
 
   <h3 style="color:#7dd3fc">一个请求的上下文长什么样</h3>
   <div class="context-flow">
     <div class="blk"><b>System</b>系统提示 / 角色设定</div>
     <div class="blk"><b>Tools</b>工具描述 + Schema</div>
-    <div class="blk"><b>History</b>历史消息(可能含压缩后摘要)</div>
+    <div class="blk"><b>History</b>历史消息(可能含摘要)</div>
     <div class="blk"><b>User + RAG</b>当前问题 + 检索片段</div>
   </div>
   <div class="arrow">↓</div>
   <div class="context-flow" style="grid-template-columns:1fr">
-    <div class="blk"><b>Context Window</b> 所有上述内容被 token 化后送进模型,总长受窗口限制(单位:token,不是字符)。</div>
+    <div class="blk"><b>Context Window</b> 所有 token 拼接后送进模型,总长度受窗口限制(单位是 token,不是字符)。</div>
   </div>
 
-  <h3 style="color:#7dd3fc">三件事决定上下文"好不好用"</h3>
+  <h3 style="color:#7dd3fc">核心机制:从 Attention 到上下文窗口</h3>
   <ol>
-    <li><b>窗口大小</b>:决定了能塞多长文档。GPT-4 类早期为 8K,Claude 3 / 4 主流已到 200K,部分模型到 1M+。<sup>[2][4]</sup></li>
-    <li><b>位置偏差</b>:"Lost in the Middle" 论文实证发现,模型对<b>开头和结尾</b>的信息召回最强,中间段最弱。<sup>[3]</sup></li>
-    <li><b>信噪比</b>:塞太多无关内容会稀释关键指令,模型会"分心"。</li>
+    <li><b>自注意力的二次复杂度</b>:Transformer 中每个 token 都要和序列中所有其他 token 计算注意力,序列长度为 <code>n</code> 时计算量和显存都是 <code>O(n²)</code>。<sup>[1]</sup> 这直接限制了上下文窗口的大小。</li>
+    <li><b>长上下文模型有两条路线</b>:
+      <ul>
+        <li><b>路线 A:稀疏/局部注意力</b>。Longformer 用滑动窗口 + 全局注意力,把复杂度降到 <code>O(n)</code>。<sup>[2]</sup></li>
+        <li><b>路线 B:序列并行 + 分块</b>。Ring Attention 把长序列切到多个设备上计算,让窗口可以扩展到百万 token。<sup>[4]</sup></li>
+      </ul>
+    </li>
+    <li><b>Infini-attention 等压缩记忆</b>:在固定内存里压缩历史上下文,使模型能处理"无限"长输入,但会引入信息损失。<sup>[5]</sup></li>
   </ol>
+
+  <h3 style="color:#7dd3fc">位置偏差:为什么开头和末尾最有效</h3>
+  <p>Liu 等人 2023 年的论文"Lost in the Middle"对多个长上下文模型做了系统评测,发现:当关键信息放在文档<b>开头或末尾</b>时召回率最高;放在中间时,即使模型标称支持长上下文,性能也会显著下降。<sup>[3]</sup> 这不是窗口大小能解决的问题,而是<b>注意力分布</b>和<b>训练数据偏差</b>导致的结构性问题。</p>
+
+  <h3 style="color:#7dd3fc">上下文与相邻概念的分工</h3>
+  <p>上下文是<b>当前推理的输入</b>;记忆(Memory)是<b>跨会话保存并检索</b>的外部信息;RAG 是<b>把外部文档按需切片送入上下文</b>的技术;微调(Fine-tune)则是把知识固化到模型权重里。<sup>[6][7]</sup></p>
 </section>
 
 <section class="card h-purple">
   <h2>4. 应用场景 <span class="tag">CASE</span></h2>
   <blockquote>
-    <b>场景</b>:客服让 AI 助手参考一份 80 页 PDF 回答客户问题。<br><br>
+    <b>场景</b>:法律助理需要在一份 200 页的合同里找出"所有关于违约责任的条款,并判断是否包含仲裁约定"。<br><br>
     <b>怎么用上下文</b>:
     <ol>
-      <li>把 PDF 拆成 chunk(每 500 token 一段),用嵌入模型建索引。</li>
-      <li>用户提问时,先<b>检索</b>最相关的 3–5 个 chunk。</li>
-      <li>把"系统提示 + 历史 + 检索片段 + 用户问题"拼成完整上下文送给模型。</li>
-      <li>回答时附<b>引用页码</b>,便于用户追溯。</li>
+      <li>如果模型窗口只有 4K token,无法一次性塞进整份合同 → 需要先用 RAG 或分段检索。</li>
+      <li>把合同拆成条款级 chunk,用嵌入模型建索引;对查询"违约责任 + 仲裁"检索最相关的 5 个 chunk。</li>
+      <li>把"系统提示 + 检索到的 chunk + 用户问题"拼成上下文送给模型。</li>
+      <li>模型基于上下文中的证据回答,并标注引用来源。</li>
     </ol>
-    <b>边界</b>:如果检索不准,再大的窗口也救不了答案;同时也不要把整本 PDF 原样灌进上下文 —— 会触发"中间遗忘"并严重拖累成本。
+    <b>边界</b>:如果检索遗漏了关键条款,再大的窗口也救不了答案。同时,如果 chunk 切分破坏了跨段语义,模型可能看不出上下文关联。<br>
+    <b>来源</b>:类似的法律/金融长文本分析任务在 Lost in the Middle 研究<sup>[3]</sup>和 Anthropic 100K 上下文应用案例<sup>[6]</sup>中均有讨论。
   </blockquote>
 </section>
 
 <section class="card h-amber">
   <h2>5. 概念辨析 & 使用边界 <span class="tag">BOUNDARY</span></h2>
   <table>
-    <thead><tr><th>概念</th><th>持久性</th><th>更新成本</th><th>能学到新事实吗</th></tr></thead>
+    <thead><tr><th>概念</th><th>持久性</th><th>更新成本</th><th>适用场景</th></tr></thead>
     <tbody>
-      <tr><td><b>上下文</b></td><td>仅本次请求</td><td>每次请求重算</td><td>能(写进 prompt)</td></tr>
-      <tr><td><b>记忆(Memory)</b></td><td>跨会话</td><td>中等(写向量库)</td><td>能</td></tr>
-      <tr><td><b>微调(Fine-tune)</b></td><td>永久(进权重)</td><td>高(重新训练)</td><td>能,但昂贵</td></tr>
-      <tr><td><b>RAG</b></td><td>由检索条件决定</td><td>低(只需更新文档库)</td><td>能,最便宜</td></tr>
+      <tr><td><b>上下文</b></td><td>仅本次请求</td><td>每次请求重算</td><td>当前对话、一次性长文档</td></tr>
+      <tr><td><b>记忆(Memory)</b></td><td>跨会话</td><td>中等(写向量库)</td><td>长期用户画像、跨任务经验</td></tr>
+      <tr><td><b>微调(Fine-tune)</b></td><td>永久(进权重)</td><td>高(重新训练)</td><td>领域专用语言、固定知识</td></tr>
+      <tr><td><b>RAG</b></td><td>由检索条件决定</td><td>低(只需更新文档库)</td><td>动态知识库、可溯源问答</td></tr>
     </tbody>
   </table>
   <blockquote class="amber">
     <b>四条硬边界</b>:
     <ol>
-      <li><b>不要把"敏感信息"放进上下文</b>:它会被发往第三方 API,日志可能被留档。</li>
-      <li><b>不要假定"窗口大 = 记得住"</b>:位置偏差是结构问题,与大小无关。</li>
-      <li><b>不要混淆"上下文里的事实"和"模型学到的"</b>:前者只对本次推理有效,后者是权重。</li>
-      <li><b>不要在上下文里塞"几乎用不到的旧消息"</b>:每多一个 token 都是钱,且会冲淡当前指令。</li>
+      <li><b>不要把"敏感信息"放进第三方 API 的上下文</b>:它会随请求离开本地,日志可能被留档。</li>
+      <li><b>不要假定"窗口大 = 记得住"</b>:Lost in the Middle 是结构性问题,与窗口大小无关。<sup>[3]</sup></li>
+      <li><b>不要把上下文塞满无关的旧消息</b>:每多一个 token 都是计算和费用,还会冲淡当前指令。</li>
+      <li><b>不要把记忆当成上下文</b>:长期记忆需要先检索再写入上下文,否则模型本轮根本看不到。<sup>[7]</sup></li>
     </ol>
   </blockquote>
 </section>
@@ -166,25 +178,16 @@
   <h2>6. 自测题 <span class="tag">QUIZ</span></h2>
   <ol>
     <li>
-      <b>(定义)</b> 用一句话区分"上下文"和"记忆",并给出存储位置的差异。
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        上下文存在<b>本次请求的 prompt</b>里;记忆存在<b>外部存储</b>(向量库 / 数据库),需要时再<b>检索</b>回上下文。
-      </details>
+      <b>(定义)</b> 用一句话区分"上下文"和"记忆",并指出它们分别存在哪里。
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>上下文存在本次请求的 prompt 里;记忆存在外部存储,需要时通过检索注入上下文。</details>
     </li>
     <li>
-      <b>(机制)</b> 解释"Lost in the Middle"现象为什么会发生,以及它对"提示词排版"的实操影响。
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        因为 attention 分布与位置相关;实操 = 把<b>最重要指令放最开头或最末尾</b>,关键引用放结尾 System 提示里。
-      </details>
+      <b>(机制)</b> 解释为什么 Transformer 自注意力会限制上下文窗口,以及 Longformer 如何缓解这个问题。
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>自注意力是 O(n²);Longformer 用稀疏注意力把复杂度降到 O(n),牺牲全局交互换取长度。<sup>[1][2]</sup></details>
     </li>
     <li>
-      <b>(边界)</b> 假设你有一个 200K 窗口的模型,要把三本 PDF 给它当知识库,你会怎么设计?为什么不直接整本灌进去?
-      <details style="margin-top:6px;color:var(--muted)">
-        <summary>提示</summary>
-        用 RAG:先建索引,提问时只检索相关片段拼成上下文。直接灌 → 中间遗忘 + 成本爆炸 + 单次会话难以追溯引用。
-      </details>
+      <b>(边界)</b> 假设你有一个 200K 窗口的模型,要把三本 PDF 当知识库,你会怎么设计?为什么不直接整本灌进去?
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>用 RAG 检索片段再拼上下文。直接灌 → 中间遗忘 + 成本爆炸 + 难追溯引用。</details>
     </li>
   </ol>
 </section>
@@ -196,14 +199,14 @@
     <tbody>
       <tr>
         <td>T0 论文</td>
-        <td>Attention Is All You Need (Vaswani et al., 2017)</td>
+        <td>Attention Is All You Need (Vaswani et al., NeurIPS 2017)</td>
         <td><a href="https://arxiv.org/abs/1706.03762">arxiv.org/abs/1706.03762</a></td>
         <td><span class="pill">已核</span></td>
       </tr>
       <tr>
-        <td>T1 厂商文档</td>
-        <td>Prompt engineering overview — Anthropic</td>
-        <td><a href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">docs.claude.com/.../prompt-engineering/overview</a></td>
+        <td>T0 论文</td>
+        <td>Longformer: The Long-Document Transformer (Beltagy et al., 2020)</td>
+        <td><a href="https://arxiv.org/abs/2004.05150">arxiv.org/abs/2004.05150</a></td>
         <td><span class="pill">已核</span></td>
       </tr>
       <tr>
@@ -213,15 +216,27 @@
         <td><span class="pill">已核</span></td>
       </tr>
       <tr>
-        <td>T2 背景</td>
-        <td>Context window — Wikipedia</td>
-        <td><a href="https://en.wikipedia.org/wiki/Context_window">en.wikipedia.org/wiki/Context_window</a></td>
+        <td>T0 论文</td>
+        <td>Ring Attention with Blockwise Transformers for Near-Infinite Context (Liu et al., 2024)</td>
+        <td><a href="https://arxiv.org/abs/2310.01889">arxiv.org/abs/2310.01889</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T0 论文</td>
+        <td>Leave No Context Behind: Efficient Infinite Context Transformers with Infini-attention (Munkhdalai et al., 2024)</td>
+        <td><a href="https://arxiv.org/abs/2404.07143">arxiv.org/abs/2404.07143</a></td>
         <td><span class="pill">已核</span></td>
       </tr>
       <tr>
         <td>T1 厂商文章</td>
-        <td>Long context — Anthropic news</td>
+        <td>100K Context Windows — Anthropic</td>
         <td><a href="https://www.anthropic.com/news/100k-context-windows">anthropic.com/news/100k-context-windows</a></td>
+        <td><span class="pill">已核</span></td>
+      </tr>
+      <tr>
+        <td>T1 厂商文档</td>
+        <td>Prompt engineering overview — Anthropic</td>
+        <td><a href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview">docs.claude.com/.../prompt-engineering/overview</a></td>
         <td><span class="pill">已核</span></td>
       </tr>
     </tbody>
@@ -230,7 +245,7 @@
 
 <footer>
   本卡片由 <code>learn-concept</code> 项目级 Skill 在作者指导下生成。<br>
-  所有引用链接截至 2026-09-08 可访问;若链接变更请以官方归档(web.archive.org)为准。
+  所有引用链接截至 2026-09-09 可访问;若链接变更请以 arXiv / 官方归档为准。
 </footer>
 
 </div>
