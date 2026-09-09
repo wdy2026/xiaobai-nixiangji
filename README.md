@@ -50,7 +50,7 @@ xiaobai-nixiangji/
 - 在每个 HTML 文件顶部加了"作者核查 · 已完成"的 chip,让后续维护一眼能看到状态。
 
 ### 第三步:核对概念关系
-`concept-relationship.html` 里的结论来自于我自己读 Agent / Context / Skill 三份卡片后写的判断,**不是模型直接给的**。我让模型做的只有:把结论整理成 SVG 图、把对比点排成表格。
+`concept-relationship.html` 里的结论是我自己读 Agent / Context / Skill 三份卡片后写下的判断,**模型并未直接给出这些结论**。我让模型做的只有:把结论整理成 SVG 图、把对比点排成表格。
 
 ## 如何在 WorkBuddy 中调用
 

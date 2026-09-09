@@ -89,7 +89,7 @@
   <div class="guide-mode">Guide Mode · Source-Traced Concept Guide</div>
   <div class="crumb">xiaobai-nixiangji · learning-materials · agent.html</div>
   <h1>Agent · 智能体</h1>
-  <p class="subtitle">不是"更聪明的聊天机器人"，而是能<b>自主循环、调用工具、修正路径</b>以完成目标的系统。</p>
+  <p class="subtitle">把它看成"更聪明的聊天机器人"会漏掉重点。它的本质是能<b>自主循环、调用工具、修正路径</b>以完成目标的系统。</p>
   <div class="meta">
     <span class="chip">对象 · 已了解 LLM 基础、想理解 Agent 工程的学习者</span>
     <span class="chip">目标 · 区分 Agent / Workflow / Copilot，能判断何时该上 Agent</span>
@@ -117,7 +117,7 @@
   <h2><span class="num">02 ·</span> 核心问题 <span class="tag">CORE QUESTION</span></h2>
   <ol>
     <li>Agent 和 Chatbot 的根本差异在哪里？是能力更强，还是结构不同？</li>
-    <li>ReAct 为什么要把"思考"和"行动"写成同一个序列，而不是先想后做？</li>
+    <li>ReAct 把"思考"和"行动"写进同一个序列，比"先想后做"好在哪里？</li>
     <li>Tool Use 是 Agent 的附加功能，还是核心能力？没有工具的 LLM 能不能叫 Agent？</li>
     <li>Agent 的"记忆"和 LLM 的"上下文"是同一回事吗？</li>
     <li>为什么不能所有任务都丢给 Agent？什么时候反而应该"不要用 Agent"？</li>
@@ -130,16 +130,16 @@
   <h3>两种权威定义</h3>
   <blockquote>
     <b>学术定义（ReAct 论文）</b>：Agent 是一种把<b>推理轨迹（Reasoning Traces）</b>与<b>行动轨迹（Action Traces）</b>交错生成的系统，允许语言模型通过行动与外部环境交互，并根据观察结果动态调整推理。<span class="sup">[S1]</span><br><br>
-    这一定义强调：<b>推理与行动的耦合</b>。模型不是一次性输出答案，而是在每一步决定"我再想一想"还是"我先查一下"。
+    这一定义强调：<b>推理与行动的耦合</b>。模型在每一步都要决定"我再想一想"还是"我先查一下"，答案随循环逐步成形。
   </blockquote>
 
   <blockquote class="purple">
     <b>工业定义（Anthropic）</b>：在构建有效 Agent 时，Anthropic 把 Agent 定义为"能够动态地指导自身流程和工具使用的系统，具有对任务完成方式的控制权"；与之相对的是 Workflow——人预先写死每一步。<span class="sup">[S2]</span><br><br>
-    这一定义强调：<b>控制权归属</b>。Agent 与 Workflow 的关键差别不是用了多少工具，而是<b>循环控制由模型掌握还是由人写死</b>。
+    这一定义强调：<b>控制权归属</b>。区分 Agent 与 Workflow 时，工具数量不构成依据，<b>循环控制由模型掌握还是由人写死</b>才是分界线。
   </blockquote>
 
   <h3>一句话个人解释</h3>
-  <p>Agent 是<b>以大语言模型为认知核心，通过循环"推理—行动—观察"调用外部工具以达成目标的自主系统</b>。它不只是"回答"，而是在一个开放环境中"把事情做完"，并且能在执行过程中根据反馈修正路径。</p>
+  <p>Agent 是<b>以大语言模型为认知核心，通过循环"推理—行动—观察"调用外部工具以达成目标的自主系统</b>。它工作在开放环境里，任务是把事情做完，执行过程中还能根据反馈修正路径。</p>
 </section>
 
 <section class="card h-purple">
@@ -160,7 +160,7 @@
   <ul>
     <li><b>大脑（Brain）</b>：LLM 负责规划、推理和决策。它本身只输出文本，不直接改变世界。Wang 等 2023 年的综述把"规划（Planning）"、"记忆（Memory）"、"工具使用（Tool Use）"列为 LLM-based Agent 的三大核心模块。<span class="sup">[S3]</span></li>
     <li><b>工具（Tools）</b>：函数、API、搜索引擎、代码解释器等，让 Agent 获得当前模型权重里不存在的信息或能力。Schick 等 2023 年的 Toolformer 证明语言模型可以<b>自学</b>何时调用工具。<span class="sup">[S4]</span></li>
-    <li><b>记忆（Memory）</b>：短期记忆是当前会话的上下文，长期记忆是向量库、数据库或外部摘要。记忆不是上下文本身，而是需要先检索再注入上下文的持久化信息。</li>
+    <li><b>记忆（Memory）</b>：短期记忆是当前会话的上下文，长期记忆是向量库、数据库或外部摘要。记忆属于持久化信息，需要先检索再注入上下文，与上下文本身不能直接画等号。</li>
   </ul>
 
   <h3>Agent 在 AI 工程光谱中的位置</h3>
@@ -243,7 +243,7 @@
     <div class="strategy">
       <div class="label">04 · Human-in-the-Loop</div>
       <h4>关键动作必须人机确认</h4>
-      <p>对于"下单""转账""发邮件""删除数据"等不可逆或高风险操作，Agent 应暂停并请求人类确认，而不是自动执行。</p>
+      <p>对于"下单""转账""发邮件""删除数据"等不可逆或高风险操作，Agent 应暂停并请求人类确认，自动执行在此类场景中被排除。</p>
       <div class="fit">适用：金融、医疗、运营等高风险领域 · 来源 <span class="sup">[S2]</span></div>
     </div>
   </div>
@@ -290,7 +290,7 @@
       <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>判定标准 = 是否能<b>自主决定调用工具</b>并在多步循环中追求目标。</details>
     </li>
     <li>
-      <b>（机制）</b> 解释 ReAct 为什么把"思考"和"行动"放在同一个序列里，而不是先全部推理再全部行动。
+      <b>（机制）</b> 解释 ReAct 把"思考"和"行动"放进同一个序列的用意，对比"先全部推理再全部行动"的做法。
       <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>因为模型需要根据行动结果（观察）调整下一步推理；分开会失去反馈修正能力。<span class="sup">[S1]</span></details>
     </li>
     <li>
@@ -331,7 +331,7 @@ function checkAgent(btn, correct, id){
   const fb = document.getElementById('agent-feedback');
   if(correct){
     btn.classList.add('correct');
-    fb.innerHTML = '<b style="color:#86efac">正确。</b>Agent 的第一步应当是获取必要信息（搜索航班），而不是直接下单或发邮件。ReAct 的核心就是"先推理需要做什么，再行动"。<span class="sup">[S1]</span>';
+    fb.innerHTML = '<b style="color:#86efac">正确。</b>Agent 的第一步应当是获取必要信息（搜索航班），直接下单或发邮件都跳过了这一步。ReAct 的核心就是"先推理需要做什么，再行动"。<span class="sup">[S1]</span>';
   }else{
     btn.classList.add('wrong');
     opts[1].classList.add('correct');

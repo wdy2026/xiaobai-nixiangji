@@ -173,14 +173,14 @@
   </ol>
 
   <blockquote class="amber">
-    <b>个人判断</b>：在工程上，Agent 的失败 80% 来自上下文，而不是 Agent 本身的"智力"。先把上下文做好，再谈模型升级。
+    <b>个人判断</b>：在工程上，Agent 的失败有 80% 要算到上下文头上，剩下那点才轮到 Agent 本身的"智力"。先把上下文做好，再谈模型升级。
   </blockquote>
 </section>
 
 <section class="card h-purple">
   <h2><span class="num">05 ·</span> 互相作用：Skill 如何沉淀可复用的任务知识？ <span class="tag">WHY</span></h2>
   <ol>
-    <li><b>沉淀的是"路径"，不是"答案"</b>：Skill 教模型怎么思考、查什么、出什么格式，而不是把答案预写死。</li>
+    <li><b>沉淀的是"路径"，无关"答案"</b>：Skill 教模型怎么思考、查什么、出什么格式，答案本身留空，交给模型现场生成。</li>
     <li><b>渐进式披露让它可扩展</b>：每个 Skill 自带 description，模型只读几十 token 就能决定要不要加载主体，避免上下文被冗余填满<span class="sup">[S4]</span>。</li>
     <li><b>Skill 之间可以组合</b>：<code>arxiv-summarizer</code> + <code>write-as-table</code> 可以叠成"先把论文总结再渲染成图表"，这与 Chameleon 等模块化 Agent 的思路一致<span class="sup">[S6]</span>。</li>
     <li><b>Skill 是把"组织资产"翻译成"模型资产"</b>：它把重复任务的标准操作流程（SOP）变成模型可调用的知识。</li>

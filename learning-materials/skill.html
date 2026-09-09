@@ -90,7 +90,7 @@
   <div class="guide-mode">Guide Mode · Source-Traced Concept Guide</div>
   <div class="crumb">xiaobai-nixiangji · learning-materials · skill.html</div>
   <h1>Skill · 可复用的任务知识包</h1>
-  <p class="subtitle">不是"一段写得更长的 Prompt"，而是把<b>专长、流程与资料</b>封装成可被按需加载的模块。</p>
+  <p class="subtitle">把它当成"一段写得更长的 Prompt"是误解。它把<b>专长、流程与资料</b>封装成可被按需加载的模块。</p>
   <div class="meta">
     <span class="chip">对象 · 已会用 LLM / Agent，想把重复任务固化为可复用能力的开发者</span>
     <span class="chip">目标 · 区分 Skill / Prompt / Tool / Agent，能设计一个可维护的 SKILL.md</span>
@@ -118,7 +118,7 @@
   <h2><span class="num">02 ·</span> 核心问题 <span class="tag">CORE QUESTION</span></h2>
   <ol>
     <li>Skill 和一段写进 System Prompt 的指令有什么不同？</li>
-    <li>为什么 Skill 要设计为"按需加载"而不是常驻上下文？</li>
+    <li>Skill 设计为"按需加载"，比常驻上下文强在哪？</li>
     <li>Skill 与 Function Calling / Tool Use 是同一回事吗？</li>
     <li>Skill 与 GPTs / Custom Assistants 有什么关系？</li>
     <li>什么样的任务才值得做成 Skill？什么任务不该做？</li>
@@ -130,17 +130,17 @@
 
   <h3>两种权威定义</h3>
   <blockquote>
-    <b>工业定义（Anthropic）</b>：Agent Skills 是"可复用的能力模块"，让 Agent 在运行时根据任务需求加载特定的指令、工具配置和上下文模板，从而扩展其专业能力，而不把所有规则都塞进系统提示。<span class="sup">[S1]</span><br><br>
+    <b>工业定义（Anthropic）</b>：Agent Skills 是"可复用的能力模块"，让 Agent 在运行时根据任务需求加载特定的指令、工具配置和上下文模板，从而扩展其专业能力，全部规则也就不必塞进系统提示。<span class="sup">[S1]</span><br><br>
     这一定义强调：<b>模块化与按需加载</b>。Skill 把专长拆出来，需要时再读。
   </blockquote>
 
   <blockquote class="purple">
     <b>工程定义（OpenAI）</b>：Function Calling 让模型能够根据用户输入自动选择并调用外部函数；而 Skill / GPTs 则是在这一能力之上，把"何时调用、怎么调用、输出什么格式"的完整知识打包成一个可复用单元。<span class="sup">[S2]</span><br><br>
-    这一定义强调：<b>Skill 是 Tool Learning 的工程封装</b>。它不是单个函数，而是围绕函数的知识包。
+    这一定义强调：<b>Skill 是 Tool Learning 的工程封装</b>。它站在单个函数之上，是围绕函数组织起来的知识包。
   </blockquote>
 
   <h3>一句话个人解释</h3>
-  <p>Skill 是 <b>把特定任务的专业知识（指令、流程、参考资料、可选脚本）打包成一个名字清楚、可被按需加载的模块</b>，让 AI 在需要时"临时学会"做这一件事，而不是把规则永久塞进上下文。</p>
+  <p>Skill 是 <b>把特定任务的专业知识（指令、流程、参考资料、可选脚本）打包成一个名字清楚、可被按需加载的模块</b>，让 AI 在需要时"临时学会"做这一件事，规则不必永久占据上下文。</p>
 </section>
 
 <section class="card h-purple">
@@ -167,9 +167,9 @@
     <li>系统启动时，模型只看到每个 Skill 的 <b>name + description</b>（几十 token）。</li>
     <li>用户提出任务 → 模型判断哪个 Skill 匹配 → 读取其 <b>SKILL.md 全文</b>。</li>
     <li>如果 SKILL.md 里引了脚本或模板，需要时再读相应文件。</li>
-    <li>整个过程类似"工具调用"，但载的是<b>知识</b>而不是外部 API 结果。</li>
+    <li>整个过程类似"工具调用"，装载的内容是<b>知识</b>，外部 API 结果不在此列。</li>
   </ol>
-  <p>这种设计与 Chameleon 等模块化 Agent 的思路一致：不要把所有能力一开始就拼进 prompt，而是让模型在运行时根据任务动态组合模块。<span class="sup">[S3]</span></p>
+  <p>这种设计与 Chameleon 等模块化 Agent 的思路一致：所有能力不必一开始就拼进 prompt，交给模型在运行时根据任务动态组合模块。<span class="sup">[S3]</span></p>
 
   <h3>学术脉络：从 Tool Use 到 Skill 封装</h3>
   <div class="diagram">
@@ -262,7 +262,7 @@
   <blockquote class="amber">
     <b>四条硬边界</b>：
     <ol>
-      <li><b>不要把 Skill 当万能钥匙</b>：它沉淀的是"我每次都要做的事"，不是"任何事都能做的开关"。</li>
+      <li><b>不要把 Skill 当万能钥匙</b>：它只沉淀"我每次都要做的事"，承担不了"任何事都能做"的期待。</li>
       <li><b>不要把业务规则全塞进 description</b>：description 永远加载，应保持简短；详细规则放在 SKILL.md 主体里按需读取。</li>
       <li><b>不要把 Skill 和 Tool 混淆</b>：Skill 是<b>告诉 AI 怎么做事</b>，Tool 是<b>让 AI 真的去拿数据 / 改状态</b>。<span class="sup">[S4][S2]</span></li>
       <li><b>不要把一次性任务做成 Skill</b>：建 Skill、维护 description 都有成本，只在重复任务上才划算。</li>
@@ -288,12 +288,12 @@
       <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>System Prompt 永久占用上下文；Skill 是按需加载的知识包，不调用就不占位置。</details>
     </li>
     <li>
-      <b>（机制）</b> 解释 SKILL.md 里为什么要单独留一段"输入字段表"，而不是直接把字段写进 description。
+      <b>（机制）</b> 解释 SKILL.md 里单独留一段"输入字段表"的用意，对比直接把字段写进 description 的做法。
       <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>description 每轮都加载要短；输入字段表属于详细规则，按需加载可以长。这是渐进式披露的关键。</details>
     </li>
     <li>
       <b>（边界）</b> 假设需求是"每天打开电脑，自动把昨天下载文件夹的文件按类型归档"，你会不会写成 Skill？为什么？
-      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>不会。这更像自动化脚本 + 定时任务，不是依赖 AI 推理的"知识包"。Skill 强调 AI 判断 + 知识沉淀。</details>
+      <details style="margin-top:6px;color:var(--muted)"><summary>提示</summary>不会。这更像自动化脚本 + 定时任务，与依赖 AI 推理的"知识包"是两回事。Skill 强调 AI 判断 + 知识沉淀。</details>
     </li>
     <li>
       <b>（学术脉络）</b> Toolformer、Gorilla、Chameleon 三篇论文分别解决了 Skill 形成的哪个前置问题？
@@ -336,7 +336,7 @@ function checkSkill(btn, correct, id){
     opts[2].classList.add('correct');
     let reason = '';
     if(id==='B') reason = '临时一句问候没有复用价值，直接写 Prompt 更快。';
-    if(id==='D') reason = '单次数据库备份是确定性脚本，不是依赖 AI 推理的"知识包"。';
+    if(id==='D') reason = '单次数据库备份是确定性脚本，与依赖 AI 推理的"知识包"是两回事。';
     fb.innerHTML = '<b style="color:#fb7185">不太对。</b>'+reason+'适合做 Skill 的是 A 和 C：重复性高、需要沉淀格式/规则的任务。';
   }
   fb.className = 'quiz-feedback show';

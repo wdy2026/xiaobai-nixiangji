@@ -94,7 +94,7 @@
   <div class="guide-mode">Guide Mode · Source-Traced Concept Guide</div>
   <div class="crumb">xiaobai-nixiangji · learning-materials · llm-context.html</div>
   <h1>AI Agent 的上下文窗</h1>
-  <p class="subtitle">它不是一个"越大越好"的盒子，而是 Agent 每一步决策能看见的<b>有限工作台</b>。</p>
+  <p class="subtitle">把它当成"越大越好"的盒子会看偏。它是 Agent 每一步决策能看见的<b>有限工作台</b>。</p>
   <div class="meta">
     <span class="chip">对象 · 已会使用 LLM 或 Agent 的学习者</span>
     <span class="chip">目标 · 会拆分 context window、LLM context 与 runtime context</span>
@@ -123,7 +123,7 @@
   <ol>
     <li>模型"看到的"和"记住的"是同一回事吗？</li>
     <li>Transformer 的自注意力为什么让上下文窗口成为计算瓶颈？</li>
-    <li>为什么上下文窗口不是越大越好？</li>
+    <li>上下文窗口"越大越好"这个说法，问题出在哪？</li>
     <li>为什么把关键信息放在上下文开头或末尾，模型更容易记住？</li>
     <li>上下文满了之后，Agent 该怎么做才能不"失忆"？</li>
   </ol>
@@ -139,12 +139,12 @@
   </blockquote>
 
   <blockquote class="purple">
-    <b>采样定义（Anthropic）</b>：context 是模型采样时实际包含的一组 token，即"本轮真正放进去的内容"，而不是所有已存储的资料。<span class="sup">[S2]</span><br><br>
+    <b>采样定义（Anthropic）</b>：context 是模型采样时实际包含的一组 token，即"本轮真正放进去的内容"，已存储的资料没进本轮就不算在内。<span class="sup">[S2]</span><br><br>
     这一定义强调：<b>内容选择</b>。窗口再大，如果里面装满噪声，模型也抓不住重点。对 Agent 而言，工程问题不只在"有多大"，更在"本轮该让模型看什么"。
   </blockquote>
 
   <h3>一句话个人解释</h3>
-  <p>大模型的"上下文"是指<b>当前推理请求中，模型能"看见"并用于生成下一个 token 的全部输入序列</b>，包括系统提示、历史对话、检索片段和工具返回。它不等同于"记忆"，也不等同于"知识"，而是一个需要被主动管理的<b>有限工作台</b>。</p>
+  <p>大模型的"上下文"是指<b>当前推理请求中，模型能"看见"并用于生成下一个 token 的全部输入序列</b>，包括系统提示、历史对话、检索片段和工具返回。它与"记忆"、与"知识"都画不上等号，本质是一个需要被主动管理的<b>有限工作台</b>。</p>
 </section>
 
 <section class="card h-purple">
@@ -159,7 +159,7 @@
   <text x="820" y="30" fill="#94a3b8" font-size="11" text-anchor="end">不同模型 / API 的输入与输出计数规则不同，应查具体规格。</text>
 
   <text x="40" y="65" fill="#e2e8f0" font-size="14" font-weight="600">可用上下文窗</text>
-  <text x="820" y="65" fill="#94a3b8" font-size="12" text-anchor="end">容量是约束，不是内容清单</text>
+  <text x="820" y="65" fill="#94a3b8" font-size="12" text-anchor="end">容量是约束，不构成内容清单</text>
 
   <!-- budget bar -->
   <rect x="40" y="80" width="780" height="70" rx="10" fill="#0b1224" stroke="rgba(148,163,184,.3)" stroke-width="1"/>
@@ -185,7 +185,7 @@
   <text x="430" y="185" fill="#e2e8f0" font-size="11" text-anchor="middle">Agent 单步上下文预算</text>
   <text x="820" y="185" fill="#94a3b8" font-size="11" text-anchor="end">最小的高信号集合才是目标</text>
 
-  <text x="430" y="220" fill="#94a3b8" font-size="12" text-anchor="middle">本轮模型调用的"可见世界"：只包含本轮被组装进来的 token，而不等于所有已存资料。</text>
+  <text x="430" y="220" fill="#94a3b8" font-size="12" text-anchor="middle">本轮模型调用的"可见世界"：只包含本轮被组装进来的 token，与所有已存资料不能画等号。</text>
 
   <!-- three columns -->
   <rect x="40" y="245" width="240" height="60" rx="8" fill="#111c33" stroke="rgba(148,163,184,.2)"/>
@@ -213,14 +213,14 @@
     </div>
     <div class="blk">
       <b>Runtime Context</b>
-      <p>程序运行时的状态变量、数据库连接、用户 ID 等。它们<b>不直接进 LLM</b>，而是由代码用来决定调用哪些工具、取什么数据。</p>
+      <p>程序运行时的状态变量、数据库连接、用户 ID 等。它们<b>不直接进 LLM</b>，由代码拿去决定调用哪些工具、取什么数据。</p>
     </div>
     <div class="blk">
       <b>Context Window</b>
-      <p>模型或 API 声明的<b>最大 token 容量</b>。它是上限，不是内容清单。不同模型的计数规则可能不同。</p>
+      <p>模型或 API 声明的<b>最大 token 容量</b>。它标定上限，不负责描述内容清单。不同模型的计数规则可能不同。</p>
     </div>
   </div>
-  <p>三者互补，不是互相替代。Runtime context 负责"系统怎么跑"，LLM context 负责"模型看到什么"，context window 负责"最多能放多少"。<span class="sup">[S1][S2]</span></p>
+  <p>三者互补，彼此无法替代。Runtime context 负责"系统怎么跑"，LLM context 负责"模型看到什么"，context window 负责"最多能放多少"。<span class="sup">[S1][S2]</span></p>
 
   <h3>03 · 从 Attention 到上下文窗口</h3>
   <ol>
@@ -235,7 +235,7 @@
   </ol>
 
   <h3>04 · 位置偏差：为什么开头和末尾最有效</h3>
-  <p>Liu 等人 2023 年的论文"Lost in the Middle"对多个长上下文模型做了系统评测，发现：当关键信息放在文档<b>开头或末尾</b>时召回率最高；放在中间时，即使模型标称支持长上下文，性能也会显著下降。<span class="sup">[S7]</span> 这不是窗口大小能解决的问题，而是<b>注意力分布</b>和<b>训练数据偏差</b>导致的结构性问题。</p>
+  <p>Liu 等人 2023 年的论文"Lost in the Middle"对多个长上下文模型做了系统评测，发现：当关键信息放在文档<b>开头或末尾</b>时召回率最高；放在中间时，即使模型标称支持长上下文，性能也会显著下降。<span class="sup">[S7]</span> 扩大窗口解决不了这个问题，根源落在<b>注意力分布</b>和<b>训练数据偏差</b>上，属于结构性问题。</p>
 
   <h3>05 · 上下文与相邻概念的分工</h3>
   <p>上下文是<b>当前推理的输入</b>；记忆（Memory）是<b>跨会话保存并检索</b>的外部信息；RAG 是<b>把外部文档按需切片送入上下文</b>的技术；微调（Fine-tune）则是把知识固化到模型权重里。<span class="sup">[S2][S8]</span></p>
@@ -264,7 +264,7 @@
     <div class="strategy">
       <div class="label">01 · COMPACTION</div>
       <h4>压缩</h4>
-      <p>窗口接近上限时，总结已发生的工作并重新开始下一段上下文。重点保留架构决定、未解错误、修改状态，而非逐字浓缩一切。</p>
+      <p>窗口接近上限时，总结已发生的工作并重新开始下一段上下文。重点保留架构决定、未解错误、修改状态，逐字浓缩全部内容没有必要。</p>
       <div class="fit">适合：连续长对话、同一任务的持续推进 · 来源 <span class="sup">[S2][S9]</span></div>
     </div>
     <div class="strategy">
@@ -315,7 +315,7 @@
 
 <section class="card h-purple">
   <h2><span class="num">08 ·</span> 交互练习 <span class="tag">PRACTICE</span></h2>
-  <p><b>场景</b>：Agent 要修复"支付 API 返回 401"。目标不是收集最多资料，而是组装足以做出<b>下一步正确行动</b>的最小高信号集合。</p>
+  <p><b>场景</b>：Agent 要修复"支付 API 返回 401"。这里的目标定为组装足以做出<b>下一步正确行动</b>的最小高信号集合，堆最多资料反而拖慢判断。</p>
   <p><b>问题</b>：选择第一轮最该带入的四项。</p>
   <button class="quiz-option" data-id="A" onclick="toggleContext(this)">A 用户的当前目标、环境和允许的修改范围</button>
   <button class="quiz-option" data-id="B" onclick="toggleContext(this)">B 过去 30 天的全部访问日志（原文）</button>
