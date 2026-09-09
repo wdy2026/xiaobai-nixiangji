@@ -7,7 +7,7 @@
 
 set -e
 
-USERNAME="<USERNAME>"   # 改成你的 GitHub 用户名,例如 windanyi
+USERNAME="wdy2026"              # GitHub 自动小写化后的实际用户名
 REPO_NAME="xiaobai-nixiangji"
 REMOTE="https://github.com/${USERNAME}/${REPO_NAME}.git"
 
